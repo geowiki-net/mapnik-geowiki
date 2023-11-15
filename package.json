@@ -1,0 +1,24 @@
+{
+  "name": "geowiki2mapnik",
+  "version": "0.0.0",
+  "description": "Convert a geowiki stylesheet into a Mapnik stylesheet",
+  "main": "",
+  "devDependencies": {},
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/geowiki-net/geowiki2mapnik.git"
+  },
+  "keywords": [
+    "OpenStreetMap",
+    "Mapnik",
+    "Geowiki"
+  ],
+  "author": "Stephan Bösch-Plepelits <skunk@xover.mud.at>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/geowiki-net/geowiki2mapnik/issues"
+  },
+  "homepage": "https://github.com/geowiki-net/geowiki2mapnik#readme"
+}
