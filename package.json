@@ -3,6 +3,13 @@
   "version": "0.0.0",
   "description": "Convert a geowiki stylesheet into a Mapnik stylesheet",
   "main": "",
+  "dependencies": {
+    "browserify": "^17.0.0",
+    "es6-to-plv8": "^0.0.5",
+    "js-yaml": "^4.1.0",
+    "pg-hstore": "^2.3.4",
+    "twig": "^1.16.0"
+  },
   "devDependencies": {},
   "scripts": {
   },
