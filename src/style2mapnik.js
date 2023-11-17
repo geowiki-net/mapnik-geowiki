@@ -41,27 +41,27 @@ module.exports = function style2mapnik (style) {
 
   if (isTrue(style.fill)) {
     result += '<PolygonSymbolizer'
-
-    Object.entries(valueMappingPolygon).forEach(([ mK, gK ]) => {
-      if (style[gK] !== '') {
-        result += ` ${mK}="` + style[gK] + '"'
-      }
-    })
-
+    result += compileParameter(style, valueMappingPolygon)
     result += '/>'
   }
 
   if (isTrue(style.stroke)) {
     result += '<LineSymbolizer'
-
-    Object.entries(valueMappingLine).forEach(([ mK, gK ]) => {
-      if (style[gK] !== '') {
-        result += ` ${mK}="` + style[gK] + '"'
-      }
-    })
-
+    result += compileParameter(style, valueMappingLine)
     result += '/>'
   }
+
+  return result
+}
+
+function compileParameter (style, def) {
+  let result = ''
+
+  Object.entries(def).forEach(([ mK, gK ]) => {
+    if (style[gK] !== '') {
+      result += ` ${mK}="` + style[gK] + '"'
+    }
+  })
 
   return result
 }
