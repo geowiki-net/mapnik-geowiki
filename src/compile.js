@@ -9,8 +9,10 @@ const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
 module.exports = function compile (data) {
   const filter = new OverpassFrontend.Filter(data.query)
   const query = filter2mapnik(filter.sets._)
+  const templates = []
 
-  const rules = '<Rule>' + style2mapnik(data.feature.style) + '</Rule>'
+  const rules = '<Rule>' + style2mapnik(data.feature.style, templates) + '</Rule>'
+  console.log(templates)
 
   let layer = templateLayer.replace(/%id%/g, 'ID')
   layer = layer.split('%query%').join(query)

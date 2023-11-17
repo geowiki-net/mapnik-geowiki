@@ -34,31 +34,35 @@ const valueMappingLine = {
   smooth: 'smoothFactor'
 }
 
-module.exports = function style2mapnik (style) {
+module.exports = function style2mapnik (style, templates) {
   let result = ''
 
   style = { ...defaultStyle, ...style }
 
   if (isTrue(style.fill)) {
     result += '<PolygonSymbolizer'
-    result += compileParameter(style, valueMappingPolygon)
+    result += compileParameter(style, valueMappingPolygon, templates)
     result += '/>'
   }
 
   if (isTrue(style.stroke)) {
     result += '<LineSymbolizer'
-    result += compileParameter(style, valueMappingLine)
+    result += compileParameter(style, valueMappingLine, templates)
     result += '/>'
   }
 
   return result
 }
 
-function compileParameter (style, def) {
+function compileParameter (style, def, templates) {
   let result = ''
 
   Object.entries(def).forEach(([ mK, gK ]) => {
-    if (style[gK] !== '') {
+    if (typeof style[gK] === 'string' && style[gK].includes('{')) {
+      const i = templates.length
+      templates.push(style[gK])
+      result += ` ${mK}="[expr${i}]"`
+    } else if (style[gK] !== '') {
       result += ` ${mK}="` + style[gK] + '"'
     }
   })
