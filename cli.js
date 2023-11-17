@@ -10,5 +10,6 @@ fs.readFile('example.yaml', (err, body) => {
 
   const data = yaml.load(body)
   const stylesheet = compile(data)
-  console.log(stylesheet)
+
+  fs.writeFileSync('mapnik.xml', stylesheet)
 })

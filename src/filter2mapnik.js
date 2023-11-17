@@ -1,4 +1,4 @@
-const dbColumns = ['amenity', 'shop']
+const dbColumns = ['amenity', 'shop', 'highway']
 
 function filter2mapnik (query, result = null) {
   let op
