@@ -43,28 +43,28 @@ function filter2mapnik (query, result = null) {
         return "select 'node' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags from planet_osm_point where " + where
         break
       case 'way':
-        return "select * from ((" +
+        return "(" +
           "select 'way' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_polygon where osm_id > 0 and " + where +
           ") union (" +
           "select 'way' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_line where osm_id > 0 and " + where +
-          ")) t"
+          ")"
         break
       case 'relation':
-        return "select * from ((" +
+        return "(" +
           "select 'relation' as type, -osm_id as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_polygon where osm_id < 0 and " + where +
           ") union (" +
           "select 'relation' as type, -osm_id as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_line where osm_id < 0 and " + where +
-          ")) t"
+          ")"
         break
         break
       case 'nwr':
-        return "select * from ((" +
+        return "(" +
           "select 'node' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_point where " + where +
           ") union (" +
           "select case when osm_id < 0 then 'relation' else 'way' end as type, abs(osm_id) as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_polygon where " + where +
           ") union (" +
           "select case when osm_id < 0 then 'relation' else 'way' end as type, abs(osm_id) as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + "]) || tags as tags, way, 0 as way_area from planet_osm_line where " + where +
-          ")) t"
+          ")"
     }
   }
 
