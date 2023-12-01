@@ -1,20 +1,6 @@
 const isTrue = require('./isTrue')
 
-const defaultStyle = {
-  "width": "3",
-  "color": "#3388ff",
-  "fillColor": "#3388ff",
-  "fill": true,
-  "stroke": true,
-  "gamma": 1,
-  "fillOpacity": 0.3,
-  opacity: 1.0,
-  lineCap: 'round',
-  lineJoin: 'round',
-  smoothFactor: 1,
-  dashArray: '',
-  compositingOperation: ''
-}
+const defaultStyle = require('./defaultStyle.json')
 
 const valueMappingPolygon = {
   fill: 'fillColor',
