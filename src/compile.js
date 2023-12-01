@@ -2,12 +2,19 @@ const OverpassFrontend = require('overpass-frontend')
 const es6ToPlv8 = require('es6-to-plv8')
 const filter2mapnik = require('./filter2mapnik')
 const style2mapnik = require('./style2mapnik')
+const getTemplateFields = require('./getTemplateFields')
 const fs = require('fs')
 
 const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
 
 module.exports = function compile (data) {
+  if (!data.layers) {
+    data.layers = [data]
+  }
+
+  const templateFields = getTemplateFields(data.layers)
+
   const filter = new OverpassFrontend.Filter(data.query)
   const templates = []
 
