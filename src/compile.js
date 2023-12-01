@@ -1,9 +1,9 @@
-const OverpassFrontend = require('overpass-frontend')
 const es6ToPlv8 = require('es6-to-plv8')
-const filter2mapnik = require('./filter2mapnik')
-const style2mapnik = require('./style2mapnik')
-const getTemplateFields = require('./getTemplateFields')
+const styles2mapnik = require('./styles2mapnik')
+const getStyleFieldValues = require('./getStyleFieldValues')
 const fs = require('fs')
+const compileQueries = require('./compileQueries')
+const compileLayerFunctions = require('./compileLayerFunctions')
 
 const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
@@ -13,15 +13,11 @@ module.exports = function compile (data) {
     data.layers = [data]
   }
 
-  const templateFields = getTemplateFields(data.layers)
+  const styleFieldValues = getStyleFieldValues(data.layers)
 
-  const filter = new OverpassFrontend.Filter(data.query)
-  const templates = []
+  const query = compileQueries(data.layers, styleFieldValues)
 
-  const rules = '<Rule>' + style2mapnik(data.feature.style, templates) + '</Rule>'
-  console.log(templates)
-
-  const query = 'select ' + templates.map((t, i) => `exprs->>${i} expr${i}`).join(', ') + ', way from (select Test__tmp(type, osm_id, hstore_to_json(tags)) exprs, way from (' + filter2mapnik(filter.sets._) + ') t) t'
+  const rules = '<Rule>' + styles2mapnik(data.layers, styleFieldValues) + '</Rule>'
 
   let layer = templateLayer.replace(/%id%/g, 'ID')
   layer = layer.split('%query%').join(query)
@@ -29,13 +25,14 @@ module.exports = function compile (data) {
 
   const stylesheet = template.split('%styles-layers%').join(layer)
 
-  let sqlFunc = fs.readFileSync('sqlFunc.template.js').toString()
-  sqlFunc = sqlFunc.replace('%templates%', templates.map(t => {
-      return '  twigRender(' + JSON.stringify(t) + ', data)'
-    }).join(',\n'))
+  const sqlFunc = compileLayerFunctions(data.layers)
 
   fs.writeFileSync('_tmp.js', sqlFunc)
-  fs.writeFileSync('_tmp.def', '{"_tmp":{"returns":"json","params":[{"type":"text","name":"type"},{"type":"bigint","name":"id"},{"type":"json","name":"tags"}]}}')
+  const def = {}
+  data.layers.forEach((layer, i) => {
+    def['layer' + i] = {"returns":"json","params":[{"type":"text","name":"type"},{"type":"bigint","name":"id"},{"type":"json","name":"tags"}]};
+  })
+  fs.writeFileSync('_tmp.def', JSON.stringify(def))
 
   es6ToPlv8({
     namespace: 'Test',
