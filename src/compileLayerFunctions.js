@@ -1,9 +1,15 @@
 const defaultStyle = require('./defaultStyle.json')
 
+const types = {
+  fill: 'boolean',
+  stroke: 'boolean'
+}
+
 module.exports = function compileLayerFunctions (layers, styleFieldValues) {
   return layers.map((layer, i) => {
     let result = `
 const twig = require('twig').twig
+const isTrue = require('./src/isTrue')
 function twigRender(data, values) {
   return twig({data}).render(values)
 }
@@ -21,6 +27,11 @@ function twigRender(data, values) {
       }
       else if (styleFieldValues[k].length > 1 || styleFieldValues[k].includes(undefined)) {
         value = JSON.stringify(v)
+      }
+
+      switch (types[k]) {
+        case 'boolean':
+          value = 'isTrue(' + value + ')'
       }
 
       if (value !== null) {
