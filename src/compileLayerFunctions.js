@@ -15,11 +15,16 @@ function twigRender(data, values) {
 
     const style = { ...defaultStyle, ...layer.feature.style }
     const f = Object.entries(style).map(([k, v]) => {
+      let value = null
       if (typeof v === 'string' && v.includes('{')) {
-        return JSON.stringify(k) + ': twigRender(' + JSON.stringify(v) + ', data)'
+        value = 'twigRender(' + JSON.stringify(v) + ', data)'
       }
       else if (styleFieldValues[k].length > 1 || styleFieldValues[k].includes(undefined)) {
-        return JSON.stringify(k) + ': ' + JSON.stringify(v)
+        value = JSON.stringify(v)
+      }
+
+      if (value !== null) {
+        return JSON.stringify(k) + ': ' + value
       }
     }).filter(s => s)
 
