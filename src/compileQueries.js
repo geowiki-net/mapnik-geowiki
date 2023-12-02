@@ -6,7 +6,6 @@ module.exports = function compileQueries (layers, fields) {
     const filter = new OverpassFrontend.Filter(layer.query)
     const query = filter2mapnik(filter.sets._)
 
-    console.log(query)
     return '(select unnest(Test_layer' + i + '(type, osm_id, hstore_to_json(tags))) exprs, way from (' + query + ') t)'
   })
 
