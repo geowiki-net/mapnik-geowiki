@@ -36,15 +36,25 @@ module.exports = function styles2mapnik (layers, styleFieldValues) {
   let result = ''
 
   if (mightTrue(styleFieldValues.fill)) {
+    result += '<Rule>\n'
+    if (mightFalse(styleFieldValues.fill)) {
+      result += '<Filter>[fill] = true</Filter>'
+    }
     result += '<PolygonSymbolizer'
     result += compileParameter(styleFieldValues, valueMappingPolygon)
-    result += '/>'
+    result += '/>\n'
+    result += '</Rule>\n'
   }
 
   if (mightTrue(styleFieldValues.stroke)) {
+    result += '<Rule>\n'
+    if (mightFalse(styleFieldValues.stroke)) {
+      result += '<Filter>[stroke] = true</Filter>'
+    }
     result += '<LineSymbolizer'
     result += compileParameter(styleFieldValues, valueMappingLine)
     result += '/>'
+    result += '</Rule>\n'
   }
 
   return result

@@ -17,7 +17,7 @@ module.exports = function compile (data) {
 
   const query = compileQueries(data.layers, styleFieldValues)
 
-  const rules = '<Rule>' + styles2mapnik(data.layers, styleFieldValues) + '</Rule>'
+  const rules = styles2mapnik(data.layers, styleFieldValues)
 
   let layer = templateLayer.replace(/%id%/g, 'ID')
   layer = layer.split('%query%').join(query)
