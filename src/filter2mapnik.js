@@ -1,14 +1,65 @@
-const dbColumns = ['amenity', 'shop', 'highway']
+const dbLayout = require('./dbLayout.json')
 
-function filter2mapnik (query, result = null) {
-  let op
-  let where = []
-
+function filter2mapnik (query) {
   if (query.constructor.name === 'FilterOr') {
     return 'select * from (' + query.parts.map(f => filter2mapnik(f)).join('\nUNION\n') + ') t'
   } else if (query.constructor.name === 'FilterAnd') {
     return console.log('not supported: FilterAnd')
-  } else if (query.constructor.name === 'FilterQuery') {
+  }
+
+  return Object.entries(dbLayout)
+    .map(([ table, layout ]) => filter2mapnik_table(table, layout, query))
+    .filter(v => v)
+    .join(' union ')
+}
+
+function filter2mapnik_table(table, layout, query) {
+  let op
+  let where = []
+
+  const dbColumns = layout.keyColumns
+
+  if (!query.type in layout.types && query.type !== 'nwr') {
+    return null
+  }
+
+  let idSelect = "osm_id"
+  let typeSelect = null
+  let typeWhere = ''
+  let negId = false, posId = false
+  Object.entries(layout.types).forEach(([type, idMod]) => {
+    if (query.type !== type && query.type !== 'nwr') {
+      return
+    }
+
+    typeSelect = `'${type}'`
+    if (idMod === '>0') {
+      posId = type
+    }
+    if (idMod === '<0') {
+      negId = type
+    }
+  })
+
+  if (!typeSelect) {
+    return null
+  }
+
+  if (posId && negId) {
+    typeSelect = `case when osm_id < 0 then '${negId}' else '${posId}' end`
+    idSelect = 'abs(osm_id) as osm_id'
+  } else if (posId) {
+    typeSelect = `'${posId}'`
+    typeWhere = 'osm_id > 0 and '
+  } else if (negId) {
+    idSelect = '-osm_id as osm_id'
+    typeSelect = `'${negId}'`
+    typeWhere = 'osm_id < 0 and '
+  }
+
+  const wayAreaSelect = layout.has_way_area ? 'way_area' : '0 as way_area'
+
+  if (query.constructor.name === 'FilterQuery') {
     query.filters.forEach(filter => {
       switch (filter.op) {
         case 'has_key':
@@ -33,30 +84,7 @@ function filter2mapnik (query, result = null) {
 
     where = where.length ? where.join(' AND ') : 'true'
 
-    switch (query.type) {
-      case 'node':
-        return "select 'node' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags from planet_osm_point where ' + where
-      case 'way':
-        return '(' +
-          "select 'way' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_polygon where osm_id > 0 and ' + where +
-          ') union (' +
-          "select 'way' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_line where osm_id > 0 and ' + where +
-          ')'
-      case 'relation':
-        return '(' +
-          "select 'relation' as type, -osm_id as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_polygon where osm_id < 0 and ' + where +
-          ') union (' +
-          "select 'relation' as type, -osm_id as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_line where osm_id < 0 and ' + where +
-          ')'
-      case 'nwr':
-        return '(' +
-          "select 'node' as type, osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_point where ' + where +
-          ') union (' +
-          "select case when osm_id < 0 then 'relation' else 'way' end as type, abs(osm_id) as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_polygon where ' + where +
-          ') union (' +
-          "select case when osm_id < 0 then 'relation' else 'way' end as type, abs(osm_id) as osm_id, hstore(ARRAY[" + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + ']) || tags as tags, way, 0 as way_area from planet_osm_line where ' + where +
-          ')'
-    }
+    return `select ${typeSelect} as type, ${idSelect}, hstore(ARRAY[` + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + `]) || tags as tags, way, ${wayAreaSelect} from ${table} where ${typeWhere} ` + where
   }
 
   return ''
