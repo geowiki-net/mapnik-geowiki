@@ -25,7 +25,7 @@ module.exports = function compile (data) {
 
   const stylesheet = template.split('%styles-layers%').join(layer)
 
-  const sqlFunc = compileLayerFunctions(data.layers)
+  const sqlFunc = compileLayerFunctions(data.layers, styleFieldValues)
 
   fs.writeFileSync('_tmp.js', sqlFunc)
   const def = {}

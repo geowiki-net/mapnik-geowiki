@@ -1,3 +1,5 @@
+const defaultStyle = require('./defaultStyle.json')
+
 module.exports = function compileLayerFunctions (layers, styleFieldValues) {
   let result = `
 const twig = require('twig').twig
@@ -12,9 +14,13 @@ module.exports = {
     result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags }\n'
     result += 'return {\n'
 
-    const f = Object.entries(layer.feature.style).map(([k, v]) => {
+    const style = { ...defaultStyle, ...layer.feature.style }
+    const f = Object.entries(style).map(([k, v]) => {
       if (typeof v === 'string' && v.includes('{')) {
         return JSON.stringify(k) + ': twigRender(' + JSON.stringify(v) + ', data)'
+      }
+      else if (styleFieldValues[k].length > 1 || styleFieldValues[k].includes(undefined)) {
+        return JSON.stringify(k) + ': ' + JSON.stringify(v)
       }
     }).filter(s => s)
 

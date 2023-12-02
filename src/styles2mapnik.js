@@ -55,7 +55,7 @@ function compileParameter (style, def) {
 
   Object.entries(def).forEach(([ mK, gK ]) => {
     if (style[gK].length > 1 || style[gK].includes(undefined)) {
-      const escField = mK.replace('-', '_')
+      const escField = gK.replace('-', '_')
       result += ` ${mK}="[${escField}]"`
     } else if (style[gK][0] !== '') {
       result += ` ${mK}="` + style[gK][0] + '"'

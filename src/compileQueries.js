@@ -2,20 +2,25 @@ const OverpassFrontend = require('overpass-frontend')
 const filter2mapnik = require('./filter2mapnik')
 
 module.exports = function compileQueries (layers, fields) {
-  const queries = layers.map(layer => {
+  const layerQs = layers.map((layer, i) => {
     const filter = new OverpassFrontend.Filter(layer.query)
-    return filter2mapnik(filter.sets._)
+    const query = filter2mapnik(filter.sets._)
+
+    console.log(query)
+    return '(select Test_layer' + i + '(type, osm_id, hstore_to_json(tags)) exprs, way from (' + query + ') t)'
   })
 
-  const query = '(' + queries.join(') or (', queries) + ')'
   const selects = Object.entries(fields).map(([field, values]) => {
     if (values.length > 1 || values.includes(undefined)) {
       const escField = field.replace('-', '_')
-      return `exprs->>"${field}" ${escField}`
+      return `exprs->>'${field}' "${escField}"`
     }
 
     return null
   }).filter(v => v).join(', ')
 
-  return 'select ' + selects + ', way from (select Test__tmp(type, osm_id, hstore_to_json(tags)) exprs, way from (' + query + ') t) t'
+  let result = 'select ' + selects + ', way from (' + layerQs.join(' union all ') + ') t'
+  result = result.replace(/</g, '&lt;')
+  result = result.replace(/>/g, '&gt;')
+  return result
 }
