@@ -1,4 +1,5 @@
 const defaultStyle = require('./defaultStyle.json')
+const twigCompile = require('./twigCompile')
 
 const types = {
   fill: 'boolean',
@@ -28,13 +29,11 @@ function twigRender(data, values) {
 
       const style = { ...defaultStyle, ...featureStyle }
       const str = Object.entries(style).map(([k, v]) => {
-        let value = null
-        if (typeof v === 'string' && v.includes('{')) {
-          value = 'twigRender(' + JSON.stringify(v) + ', data)'
+        if (styleFieldValues[k].length === 1 && !styleFieldValues[k].includes(undefined)) {
+          return null
         }
-        else if (styleFieldValues[k].length > 1 || styleFieldValues[k].includes(undefined)) {
-          value = JSON.stringify(v)
-        }
+
+        let value = twigCompile(v)
 
         switch (types[k]) {
           case 'boolean':
@@ -51,14 +50,8 @@ function twigRender(data, values) {
 
     result += f.join(',\n') + '\n}\n'
 
-    let styles = layer.feature.styles ?? 'default'
-    if (typeof styles === 'string' && styles.includes('{')) {
-      styles = 'twigRender(' + JSON.stringify(styles) + ', data)'
-    } else {
-      styles = JSON.stringify(styles)
-    }
-
-    result += 'return ' + styles + '.split(",").map(s => result[s.trim()])'
+    result += 'return ' + twigCompile(layer.feature.styles ?? 'default') +
+      '.split(",").map(s => result[s.trim()])'
 
     result += '\n}\n}'
 
