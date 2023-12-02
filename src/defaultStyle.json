@@ -11,5 +11,6 @@
   "lineJoin": "round",
   "smoothFactor": 1,
   "dashArray": "",
+  "zIndex": 0,
   "compositingOperation": ""
 }

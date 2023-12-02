@@ -19,7 +19,7 @@ module.exports = function compileQueries (layers, fields) {
     return null
   }).filter(v => v).join(', ')
 
-  let result = 'select ' + selects + ', way from (' + layerQs.join(' union all ') + ') t'
+  let result = 'select ' + selects + ', way from (' + layerQs.join(' union all ') + ') t order by cast(exprs->>\'zIndex\' as float)'
   result = result.replace(/</g, '&lt;')
   result = result.replace(/>/g, '&gt;')
   return result
