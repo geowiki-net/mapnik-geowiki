@@ -4,6 +4,7 @@ const valueMappingPolygon = {
   fill: 'fillColor',
   'fill-opacity': 'fillOpacity',
   gamma: 'gamma',
+  smooth: 'smoothFactor',
   'comp-op': 'compositingOperation'
 }
 

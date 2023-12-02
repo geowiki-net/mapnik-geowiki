@@ -9,7 +9,7 @@
   "opacity": 1,
   "lineCap": "round",
   "lineJoin": "round",
-  "smoothFactor": 1,
+  "smoothFactor": 0,
   "dashArray": "",
   "zIndex": 0,
   "compositingOperation": ""
