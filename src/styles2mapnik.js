@@ -1,23 +1,6 @@
 const isTrue = require('./isTrue')
 
-const valueMappingPolygon = {
-  fill: 'fillColor',
-  'fill-opacity': 'fillOpacity',
-  gamma: 'gamma',
-  smooth: 'smoothFactor',
-  'comp-op': 'compositingOperation'
-}
-
-const valueMappingLine = {
-  stroke: 'color',
-  'stroke-width': 'width',
-  'stroke-opacity': 'opacity',
-  'stroke-linejoin': 'lineJoin',
-  'stroke-linecap': 'lineCap',
-  'stroke-dasharray': 'dashArray',
-  'comp-op': 'compositingOperation',
-  smooth: 'smoothFactor'
-}
+const SymbolizerConf = require('./mapnikSymbolizer.json')
 
 function mightTrue (values) {
   return values
@@ -34,27 +17,18 @@ function mightFalse (values) {
 module.exports = function styles2mapnik (layers, styleFieldValues) {
   let result = ''
 
-  if (mightTrue(styleFieldValues.fill)) {
-    result += '<Rule>\n'
-    if (mightFalse(styleFieldValues.fill)) {
-      result += '<Filter>[fill] = true or [fill] = "true"</Filter>'
+  Object.entries(SymbolizerConf).forEach(([symbolizer, conf]) => {
+    if (mightTrue(styleFieldValues[conf.filterField])) {
+      result += '<Rule>\n'
+      if (mightFalse(styleFieldValues[conf.filterField])) {
+        result += `<Filter>[${conf.filterField}] = true or [${conf.filterField}] = "true"</Filter>`
+      }
+      result += '<' + symbolizer
+      result += compileParameter(styleFieldValues, conf.fieldMapping)
+      result += '/>\n'
+      result += '</Rule>\n'
     }
-    result += '<PolygonSymbolizer'
-    result += compileParameter(styleFieldValues, valueMappingPolygon)
-    result += '/>\n'
-    result += '</Rule>\n'
-  }
-
-  if (mightTrue(styleFieldValues.stroke)) {
-    result += '<Rule>\n'
-    if (mightFalse(styleFieldValues.stroke)) {
-      result += '<Filter>[stroke] = true or [stroke] = "true"</Filter>'
-    }
-    result += '<LineSymbolizer'
-    result += compileParameter(styleFieldValues, valueMappingLine)
-    result += '/>'
-    result += '</Rule>\n'
-  }
+  })
 
   return result
 }

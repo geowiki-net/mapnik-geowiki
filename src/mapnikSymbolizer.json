@@ -1,0 +1,25 @@
+{
+  "PolygonSymbolizer": {
+    "filterField": "fill",
+    "fieldMapping": {
+      "fill": "fillColor",
+      "fill-opacity": "fillOpacity",
+      "gamma": "gamma",
+      "smooth": "smoothFactor",
+      "comp-op": "compositingOperation"
+    }
+  },
+  "LineSymbolizer": {
+    "filterField": "stroke",
+    "fieldMapping": {
+      "stroke": "color",
+      "stroke-width": "width",
+      "stroke-opacity": "opacity",
+      "stroke-linejoin": "lineJoin",
+      "stroke-linecap": "lineCap",
+      "stroke-dasharray": "dashArray",
+      "comp-op": "compositingOperation",
+      "smooth": "smoothFactor"
+    }
+  }
+}
