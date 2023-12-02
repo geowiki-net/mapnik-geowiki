@@ -17,7 +17,7 @@ function twigRender(data, values) {
 
     result += 'module.exports = { layer' + i + ': (type, osm_id, tags) => {\n'
     result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags }\n'
-    result += 'return [\n'
+    result += 'const result = {\n'
 
     const f = Object.entries(layer.feature).map(([k, featureStyle]) => {
       if (k !== 'style' && !k.match(/^style:/)) {
@@ -46,10 +46,21 @@ function twigRender(data, values) {
         }
       }).filter(s => s).join(',\n')
 
-      return '{styleId: ' + JSON.stringify(styleId) + ',\n' + str + '\n}'
+      return JSON.stringify(styleId) + ': {\n' + str + '\n}'
     }).filter(s => s)
 
-    result += f.join(',\n') + '\n]\n}\n}'
+    result += f.join(',\n') + '\n}\n'
+
+    let styles = layer.feature.styles ?? 'default'
+    if (typeof styles === 'string' && styles.includes('{')) {
+      styles = 'twigRender(' + JSON.stringify(styles) + ', data)'
+    } else {
+      styles = JSON.stringify(styles)
+    }
+
+    result += 'return ' + styles + '.split(",").map(s => result[s.trim()])'
+
+    result += '\n}\n}'
 
     return result
   })
