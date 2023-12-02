@@ -17,7 +17,7 @@ function filter2mapnik_table(table, layout, query) {
   let op
   let where = []
 
-  const dbColumns = layout.keyColumns
+  const dbColumns = layout.textColumns.concat(layout.intColumns)
 
   if (!query.type in layout.types && query.type !== 'nwr') {
     return null
@@ -84,7 +84,7 @@ function filter2mapnik_table(table, layout, query) {
 
     where = where.length ? where.join(' AND ') : 'true'
 
-    return `select ${typeSelect} as type, ${idSelect}, hstore(ARRAY[` + dbColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',') + `]) || tags as tags, way, ${wayAreaSelect} from ${table} where ${typeWhere} ` + where
+    return `select ${typeSelect} as type, ${idSelect}, hstore(ARRAY[` + compileColumns(layout) + `]) || tags as tags, way, ${wayAreaSelect} from ${table} where ${typeWhere} ` + where
   }
 
   return ''
@@ -98,4 +98,11 @@ function colEsc (k) {
 
 function strEsc (k) {
   return `'${k}'`
+}
+
+function compileColumns (layout) {
+  let result = layout.textColumns.map(k => strEsc(k) + ',' + colEsc(k)).join(',')
+  result += (result.length ? ',' : '') + layout.intColumns.map(k => strEsc(k) + ',cast(' + colEsc(k) + ' as text)').join(',')
+
+  return result
 }

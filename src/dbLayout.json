@@ -4,7 +4,8 @@
       "node": true
     },
     "tagsColumn": "tags",
-    "keyColumns": ["access", "addr:housename", "addr:housenumber", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "boundary", "building", "highway", "historic", "junction", "landuse", "layer", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "shop", "tourism", "water", "waterway"]
+    "textColumns": ["access", "addr:housename", "addr:housenumber", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "boundary", "building", "highway", "historic", "junction", "landuse", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "shop", "tourism", "water", "waterway"],
+    "intColumns": ["layer"]
   },
   "planet_osm_line": {
     "types": {
@@ -13,7 +14,8 @@
     },
     "has_way_area": true,
     "tagsColumn": "tags",
-    "keyColumns": ["access", "addr:housename", "addr:housenumber", "addr:interpolation", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "bicycle", "bridge", "boundary", "building", "construction", "covered", "foot", "highway", "historic", "horse", "junction", "landuse", "layer", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "route", "service", "shop", "surface", "tourism", "tracktype", "tunnel", "water", "waterway"]
+    "textColumns": ["access", "addr:housename", "addr:housenumber", "addr:interpolation", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "bicycle", "bridge", "boundary", "building", "construction", "covered", "foot", "highway", "historic", "horse", "junction", "landuse", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "route", "service", "shop", "surface", "tourism", "tracktype", "tunnel", "water", "waterway"],
+    "intColumns": ["layer"]
   },
   "planet_osm_polygon": {
     "types": {
@@ -22,6 +24,7 @@
     },
     "has_way_area": true,
     "tagsColumn": "tags",
-    "keyColumns": ["access", "addr:housename", "addr:housenumber", "addr:interpolation", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "bicycle", "bridge", "boundary", "building", "construction", "covered", "foot", "highway", "historic", "horse", "junction", "landuse", "layer", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "route", "service", "shop", "surface", "tourism", "tracktype", "tunnel", "water", "waterway"]
+    "textColumns": ["access", "addr:housename", "addr:housenumber", "addr:interpolation", "admin_level", "aerialway", "aeroway", "amenity", "barrier", "bicycle", "bridge", "boundary", "building", "construction", "covered", "foot", "highway", "historic", "horse", "junction", "landuse", "leisure", "lock", "man_made", "military", "name", "natural", "oneway", "place", "power", "railway", "ref", "religion", "route", "service", "shop", "surface", "tourism", "tracktype", "tunnel", "water", "waterway"],
+    "intColumns": ["layer"]
   }
 }
