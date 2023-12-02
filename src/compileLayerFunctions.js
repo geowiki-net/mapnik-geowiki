@@ -6,7 +6,7 @@ const types = {
   stroke: 'boolean'
 }
 
-module.exports = function compileLayerFunctions (layers, styleFieldValues) {
+module.exports = function compileLayerFunctions (layers, styleFieldValues, globalData) {
   return layers.map((layer, i) => {
     let result = `
 const twig = require('twig').twig
@@ -17,7 +17,19 @@ function twigRender(data, values) {
 `
 
     result += 'module.exports = { layer' + i + ': (type, osm_id, tags) => {\n'
-    result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags }\n'
+    result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags'
+    if (globalData.const) {
+      result += '\n,const: ' + JSON.stringify(globalData.const)
+    }
+    result += '}\n'
+
+    if (layer.feature.pre) {
+      result += 'twigRender(' + JSON.stringify(layer.feature.pre) + ', data)\n'
+    }
+    if (layer.feature.init) {
+      result += 'twigRender(' + JSON.stringify(layer.feature.pre) + ', data)\n'
+    }
+
     result += 'const result = {\n'
 
     const f = Object.entries(layer.feature).map(([k, featureStyle]) => {

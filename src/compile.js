@@ -25,7 +25,7 @@ module.exports = function compile (data) {
 
   const stylesheet = template.split('%styles-layers%').join(layer)
 
-  const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues)
+  const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues, data)
 
   createPLV8Functions(sqlFuncs, (err, file) => {
     if (err) { return console.error(err) }
