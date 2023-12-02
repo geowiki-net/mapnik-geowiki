@@ -1,9 +1,9 @@
-const es6ToPlv8 = require('es6-to-plv8')
 const styles2mapnik = require('./styles2mapnik')
 const getStyleFieldValues = require('./getStyleFieldValues')
 const fs = require('fs')
 const compileQueries = require('./compileQueries')
 const compileLayerFunctions = require('./compileLayerFunctions')
+const createPLV8Functions = require('./createPLV8Functions')
 
 const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
@@ -25,20 +25,15 @@ module.exports = function compile (data) {
 
   const stylesheet = template.split('%styles-layers%').join(layer)
 
-  const sqlFunc = compileLayerFunctions(data.layers, styleFieldValues)
+  const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues)
 
-  fs.writeFileSync('_tmp.js', sqlFunc)
-  const def = {}
-  data.layers.forEach((layer, i) => {
-    def['layer' + i] = {"returns":"json","params":[{"type":"text","name":"type"},{"type":"bigint","name":"id"},{"type":"json","name":"tags"}]};
-  })
-  fs.writeFileSync('_tmp.def', JSON.stringify(def))
+  createPLV8Functions(sqlFuncs, (err, file) => {
+    if (err) { return console.error(err) }
+    fs.writeFile('mapnik.sql', file, (err) => {
+      if (err) { return console.error(err) }
 
-  es6ToPlv8({
-    namespace: 'Test',
-    file: '_tmp.js',
-    outfile: 'mapnik.sql',
-    definitions: '_tmp.def',
+      console.log('create mapnik.sql')
+    })
   })
 
   return stylesheet
