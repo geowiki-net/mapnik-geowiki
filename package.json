@@ -10,7 +10,9 @@
     "pg-hstore": "^2.3.4",
     "twig": "^1.16.0"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "standard --fix cli.js src/*.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/geowiki-net/geowiki2mapnik.git"
@@ -25,5 +27,8 @@
   "bugs": {
     "url": "https://github.com/geowiki-net/geowiki2mapnik/issues"
   },
-  "homepage": "https://github.com/geowiki-net/geowiki2mapnik#readme"
+  "homepage": "https://github.com/geowiki-net/geowiki2mapnik#readme",
+  "devDependencies": {
+    "standard": "^17.1.0"
+  }
 }
