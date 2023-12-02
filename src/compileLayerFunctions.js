@@ -33,12 +33,7 @@ function twigRender(data, values) {
           return null
         }
 
-        let value = twigCompile(v)
-
-        switch (types[k]) {
-          case 'boolean':
-            value = 'isTrue(' + value + ')'
-        }
+        const value = twigCompile(v, types[k])
 
         if (value !== null) {
           return JSON.stringify(k) + ': ' + value
