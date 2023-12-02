@@ -47,7 +47,9 @@ function twigRender(data, values) {
 
         const value = twigCompile(v, types[k])
 
-        if (value !== null) {
+        if (value === null) {
+          return null
+        } else {
           return JSON.stringify(k) + ': ' + value
         }
       }).filter(s => s).join(',\n')

@@ -2,7 +2,6 @@ const defaultStyle = require('./defaultStyle.json')
 
 module.exports = function getStyleFieldValues (layers) {
   const fieldValues = {}
-  const templateFields = []
 
   layers.forEach(layer => {
     Object.keys(layer.feature ?? {})

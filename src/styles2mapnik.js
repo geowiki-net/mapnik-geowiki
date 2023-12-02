@@ -1,7 +1,5 @@
 const isTrue = require('./isTrue')
 
-const defaultStyle = require('./defaultStyle.json')
-
 const valueMappingPolygon = {
   fill: 'fillColor',
   'fill-opacity': 'fillOpacity',
@@ -63,7 +61,7 @@ module.exports = function styles2mapnik (layers, styleFieldValues) {
 function compileParameter (style, def) {
   let result = ''
 
-  Object.entries(def).forEach(([ mK, gK ]) => {
+  Object.entries(def).forEach(([mK, gK]) => {
     if (style[gK].length > 1 || style[gK].includes(undefined)) {
       const escField = gK.replace('-', '_')
       result += ` ${mK}="[${escField}]"`
