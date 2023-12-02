@@ -7,7 +7,7 @@ module.exports = function compileQueries (layers, fields) {
     const query = filter2mapnik(filter.sets._)
 
     console.log(query)
-    return '(select Test_layer' + i + '(type, osm_id, hstore_to_json(tags)) exprs, way from (' + query + ') t)'
+    return '(select unnest(Test_layer' + i + '(type, osm_id, hstore_to_json(tags))) exprs, way from (' + query + ') t)'
   })
 
   const selects = Object.entries(fields).map(([field, values]) => {
