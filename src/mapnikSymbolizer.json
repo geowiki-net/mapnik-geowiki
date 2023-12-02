@@ -21,5 +21,16 @@
       "comp-op": "compositingOperation",
       "smooth": "smoothFactor"
     }
+  },
+  "TextSymbolizer": {
+    "requireField": "text",
+    "content": "[text]",
+    "fieldMapping": {
+      "face-name": "textFontName",
+      "size": "textFontSize",
+      "placement": "textPlacement",
+      "opacity": "textOpacity",
+      "fill": "textColor"
+    }
   }
 }

@@ -12,5 +12,10 @@
   "smoothFactor": 0,
   "dashArray": "",
   "zIndex": 0,
-  "compositingOperation": ""
+  "compositingOperation": "",
+  "textFontName": "DejaVu Sans Oblique",
+  "textPlacement": "line",
+  "textOpacity": 1,
+  "textColor": "#000000",
+  "textFontSize": 10
 }

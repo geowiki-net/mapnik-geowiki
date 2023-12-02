@@ -18,14 +18,24 @@ module.exports = function styles2mapnik (layers, styleFieldValues) {
   let result = ''
 
   Object.entries(SymbolizerConf).forEach(([symbolizer, conf]) => {
-    if (mightTrue(styleFieldValues[conf.filterField])) {
+    if (conf.requireField && !(conf.requireField in styleFieldValues)) {
+      return
+    }
+
+    if (!conf.filterField || mightTrue(styleFieldValues[conf.filterField])) {
       result += '<Rule>\n'
-      if (mightFalse(styleFieldValues[conf.filterField])) {
+      if (conf.filterField && mightFalse(styleFieldValues[conf.filterField])) {
         result += `<Filter>[${conf.filterField}] = true or [${conf.filterField}] = "true"</Filter>`
       }
       result += '<' + symbolizer
       result += compileParameter(styleFieldValues, conf.fieldMapping)
-      result += '/>\n'
+
+      if (conf.content) {
+        result += `>${conf.content}</${symbolizer}>\n`
+      } else {
+        result += '/>\n'
+      }
+
       result += '</Rule>\n'
     }
   })
