@@ -10,6 +10,9 @@ const isTrue = require('./src/isTrue')
 function twigRender(data, values) {
   return twig({data}).render(values)
 }
+function valueMap(value, map) {
+  return value in map ? map[value] : value
+}
 `
 
     result += 'module.exports = { layer' + i + ': (type, osm_id, tags) => {\n'

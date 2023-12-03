@@ -1,21 +1,32 @@
 const isTrue = require('./isTrue')
 
 module.exports = function twigCompile (str, fieldConfig = {}) {
+  let result
+
   if (typeof str === 'string' && str.includes('{')) {
-    const result = 'twigRender(' + JSON.stringify(str) + ', data)'
+    result = 'twigRender(' + JSON.stringify(str) + ', data)'
 
     switch (fieldConfig.type) {
       case 'boolean':
-        return 'isTrue(' + result + ')'
-      default:
-        return result
+        result = 'isTrue(' + result + ')'
+        break
+    }
+
+    if (fieldConfig.valueMapping) {
+      result = 'valueMap(' + result + ', ' + JSON.stringify(fieldConfig.valueMapping) + ')'
     }
   } else {
     switch (fieldConfig.type) {
       case 'boolean':
-        return isTrue(str) ? 'true' : 'false'
+        result = isTrue(str) ? 'true' : 'false'
       default:
-        return JSON.stringify(str)
+        if (fieldConfig.valueMapping) {
+          str = str in fieldConfig.valueMapping ? fieldConfig.valueMapping[str] : str
+        }
+
+        result = JSON.stringify(str)
     }
   }
+
+  return result
 }
