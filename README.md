@@ -23,6 +23,29 @@ psql gis < mapnik.sql
 ```
 
 ## DOCUMENTATION
+Stylesheet use the Geowiki format, which is based on YAML with TwigJS templates.
+### Example
+```yaml
+layers:
+- query: way[highway]
+  feature:
+    style:
+      width: 5
+      fill: false
+      color: '#ff0000'
+      dashArray: |-
+        {{ tags.highway in ['primary', 'secondary', 'tertiary'] ? '' : '5,5' }}
+
+- query: nwr[natural=water]
+  feature:
+    style:
+      fill: true
+      fillColor: '#afafff'
+      width: 1
+      color: '#0000ff'
+      zIndex: -1
+```
+
 ### TwigJS
 #### TwigJS templates
 When rendering map features, the following properties are available:
