@@ -21,3 +21,18 @@ Load the functions into the database, and you are good to go.
 ```
 psql gis < mapnik.sql
 ```
+
+## DOCUMENTATION
+### TwigJS
+#### TwigJS templates
+When rendering map features, the following properties are available:
+* `id` (the id of the object is always available, prefixed 'n' for nodes, 'w' for ways and 'r' for relations; e.g. 'n1234')
+* `osm_id` (the numerical id of the object)
+* `type` ('node', 'way' or 'relation')
+* `tags.*` (all tags are available with the prefix tags., e.g. tags.amenity)
+* `map.scale_denominator` (Scale denominator at the current zoom level)
+* `map.zoom` (Current zoom level)
+* `const.*` (Values from the 'const' option)
+
+#### TwigJS extra functions and filters
+Currently none.
