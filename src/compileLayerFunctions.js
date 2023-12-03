@@ -1,10 +1,6 @@
 const defaultStyle = require('./defaultStyle.json')
 const twigCompile = require('./twigCompile')
-
-const types = {
-  fill: 'boolean',
-  stroke: 'boolean'
-}
+const fieldConfig = require('./fieldConfig.json')
 
 module.exports = function compileLayerFunctions (layers, styleFieldValues, globalData) {
   return layers.map((layer, i) => {
@@ -45,7 +41,7 @@ function twigRender(data, values) {
           return null
         }
 
-        const value = twigCompile(v, types[k])
+        const value = twigCompile(v, fieldConfig[k] ?? {})
 
         if (value === null) {
           return null
