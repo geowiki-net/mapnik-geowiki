@@ -120,20 +120,30 @@ function allCombinations (ruleFieldValues) {
           const s = {}
           s[field] = `"[${field}]"`
 
-          result.push({
-            filter: r.filter.concat([values
+          let filter = r.filter
+          if (values.length > 1) {
+            filter = filter.concat([values
               .filter(v => v !== undefined)
               .map(v => `[${field}] != ` + JSON.stringify(v))
               .join(' and ')
-            ]),
+            ])
+          }
+
+          result.push({
+            filter,
             fields: { ...r.fields, ...s }
           })
         } else {
           const s = {}
           s[field] = JSON.stringify(value)
 
+          let filter = r.filter
+          if (values.length > 1) {
+            filter = filter.concat([`[${field}] = ` + JSON.stringify(value)])
+          }
+
           result.push({
-            filter: r.filter.concat([`[${field}] = ` + JSON.stringify(value)]),
+            filter,
             fields: { ...r.fields, ...s }
           })
         }
