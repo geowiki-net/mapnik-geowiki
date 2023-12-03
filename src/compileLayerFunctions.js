@@ -15,8 +15,8 @@ function valueMap(value, map) {
 }
 `
 
-    result += 'module.exports = { layer' + i + ': (type, osm_id, tags) => {\n'
-    result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags'
+    result += 'module.exports = { layer' + i + ': (type, osm_id, tags, map) => {\n'
+    result += 'const data = { id: type.substr(0, 1) + osm_id, osm_id, type, tags, map'
     if (globalData.const) {
       result += '\n,const: ' + JSON.stringify(globalData.const)
     }
