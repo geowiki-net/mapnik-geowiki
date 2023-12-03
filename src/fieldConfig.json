@@ -8,6 +8,12 @@
   "dashArray": {
     "valueMapping": {
       "": "none"
-    }
+    },
+    "values": ["none"],
+    "otherValues": true
+  },
+  "lineJoin": {
+    "values": ["miter", "round", "bevel"],
+    "otherValues": false
   }
 }
