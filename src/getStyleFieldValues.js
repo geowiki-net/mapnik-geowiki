@@ -1,4 +1,5 @@
 const defaultStyle = require('./defaultStyle.json')
+const fieldConfig = require('./fieldConfig.json')
 
 module.exports = function getStyleFieldValues (layers) {
   const fieldValues = {}
@@ -10,11 +11,17 @@ module.exports = function getStyleFieldValues (layers) {
         const style = { ...defaultStyle, ...layer.feature[styleId] }
 
         Object.entries(style).forEach(([k, v]) => {
+          const fConfig = fieldConfig[k] ?? {}
+
           if (!(k in fieldValues)) {
             fieldValues[k] = []
           }
 
-          const value = typeof v === 'string' && v.includes('{') ? undefined : v
+          let value = typeof v === 'string' && v.includes('{') ? undefined : v
+          if (fConfig.valueMapping) {
+            value = value in fConfig.valueMapping ? fConfig.valueMapping[value] : value
+          }
+
           if (!fieldValues[k].includes(value)) {
             fieldValues[k].push(value)
           }
