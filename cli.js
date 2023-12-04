@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 const fs = require('fs')
+const path = require('path')
 const yaml = require('js-yaml')
 const ArgumentParser = require('argparse').ArgumentParser
 const compile = require('./src/compile')
@@ -13,7 +14,17 @@ parser.add_argument('filename', {
   help: 'The geowiki stylesheet to compile, e.g. "file.yaml"'
 })
 
+parser.add_argument('--id', '-i', {
+  help: 'The ID to use. By default, the filename without extension will be used.',
+  default: null
+})
+
 const options = parser.parse_args()
+
+if (!options.id) {
+  const fileinfo = path.parse(options.filename)
+  options.id = fileinfo.name
+}
 
 fs.readFile(options.filename, (err, body) => {
   if (err) {
