@@ -13,13 +13,9 @@ parser.add_argument('filename', {
   help: 'The geowiki stylesheet to compile, e.g. "file.yaml"'
 })
 
-const args = parser.parse_args()
+const options = parser.parse_args()
 
-const options = {
-  id: 'example'
-}
-
-fs.readFile(args.filename, (err, body) => {
+fs.readFile(options.filename, (err, body) => {
   if (err) {
     return console.error(err)
   }
