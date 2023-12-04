@@ -1,7 +1,7 @@
 const defaultStyle = require('./defaultStyle.json')
 const fieldConfig = require('./fieldConfig.json')
 
-module.exports = function getStyleFieldValues (layers) {
+module.exports = function getStyleFieldValues (layers, options) {
   const fieldValues = {}
 
   layers.forEach(layer => {

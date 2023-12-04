@@ -2,7 +2,7 @@ const defaultStyle = require('./defaultStyle.json')
 const twigCompile = require('./twigCompile')
 const fieldConfig = require('./fieldConfig.json')
 
-module.exports = function compileLayerFunctions (layers, styleFieldValues, globalData) {
+module.exports = function compileLayerFunctions (layers, styleFieldValues, globalData, options) {
   return layers.map((layer, i) => {
     let result = `
 const twig = require('twig').twig

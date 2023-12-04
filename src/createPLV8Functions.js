@@ -2,7 +2,7 @@ const fs = require('fs')
 const browserify = require('browserify')
 const async = require('async')
 
-module.exports = function createPLV8Functions (functions, callback) {
+module.exports = function createPLV8Functions (functions, options, callback) {
   async.mapValues(functions, (fun, i, done) => {
     fs.writeFile('_tmp' + i + '.js', fun, (err) => {
       if (err) { return done(err) }

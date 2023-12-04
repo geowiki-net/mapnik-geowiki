@@ -13,11 +13,11 @@ module.exports = function compile (data, options) {
     data.layers = [data]
   }
 
-  const styleFieldValues = getStyleFieldValues(data.layers)
+  const styleFieldValues = getStyleFieldValues(data.layers, options)
 
-  const query = compileQueries(data.layers, styleFieldValues)
+  const query = compileQueries(data.layers, styleFieldValues, options)
 
-  const rules = styles2mapnik(data.layers, styleFieldValues)
+  const rules = styles2mapnik(data.layers, styleFieldValues, options)
 
   let layer = templateLayer.replace(/%id%/g, 'ID')
   layer = layer.split('%query%').join(query)
@@ -25,9 +25,9 @@ module.exports = function compile (data, options) {
 
   const stylesheet = template.split('%styles-layers%').join(layer)
 
-  const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues, data)
+  const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues, data, options)
 
-  createPLV8Functions(sqlFuncs, (err, file) => {
+  createPLV8Functions(sqlFuncs, options, (err, file) => {
     if (err) { return console.error(err) }
     const filename = options.id + '.sql'
 

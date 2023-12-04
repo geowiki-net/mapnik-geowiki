@@ -1,7 +1,7 @@
 const OverpassFrontend = require('overpass-frontend')
 const filter2mapnik = require('./filter2mapnik')
 
-module.exports = function compileQueries (layers, fields) {
+module.exports = function compileQueries (layers, fields, options) {
   const layerQs = layers.map((layer, i) => {
     const filter = new OverpassFrontend.Filter(layer.query)
     const query = filter2mapnik(filter.sets._)
