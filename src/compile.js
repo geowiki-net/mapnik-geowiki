@@ -8,7 +8,7 @@ const createPLV8Functions = require('./createPLV8Functions')
 const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
 
-module.exports = function compile (data) {
+module.exports = function compile (data, options) {
   if (!data.layers) {
     data.layers = [data]
   }
@@ -29,10 +29,12 @@ module.exports = function compile (data) {
 
   createPLV8Functions(sqlFuncs, (err, file) => {
     if (err) { return console.error(err) }
-    fs.writeFile('mapnik.sql', file, (err) => {
+    const filename = options.id + '.sql'
+
+    fs.writeFile(filename, file, (err) => {
       if (err) { return console.error(err) }
 
-      console.log('create mapnik.sql')
+      console.log('create ' + filename)
     })
   })
 
