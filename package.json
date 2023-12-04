@@ -4,6 +4,7 @@
   "description": "Convert a geowiki stylesheet into a Mapnik stylesheet",
   "main": "",
   "dependencies": {
+    "argparse": "^2.0.1",
     "browserify": "^17.0.0",
     "js-yaml": "^4.1.0",
     "overpass-frontend": "github:plepe/overpass-frontend#sets",
