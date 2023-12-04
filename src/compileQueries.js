@@ -6,7 +6,11 @@ module.exports = function compileQueries (layers, fields, options) {
     const filter = new OverpassFrontend.Filter(layer.query)
     const query = filter2mapnik(filter.sets._)
 
-    const funcname = options.id + '_layer_' + i
+    let funcname = options.id + '_layer_' + i
+    if (options.schema) {
+      funcname = options.schema + '.' + funcname
+    }
+
     return '(select unnest(' + funcname + '(type, osm_id, hstore_to_json(tags), json_build_object(\'scale_denominator\', !scale_denominator!, \'zoom\', round(log(2, 559082264 / !scale_denominator!))))) exprs, way from (' + query + ') t)'
   })
 

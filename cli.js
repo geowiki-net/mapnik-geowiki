@@ -19,6 +19,11 @@ parser.add_argument('--id', '-i', {
   default: null
 })
 
+parser.add_argument('--schema', {
+  help: 'When calling the SQL functions, append the optional schema.',
+  default: null
+})
+
 const options = parser.parse_args()
 
 if (!options.id) {
