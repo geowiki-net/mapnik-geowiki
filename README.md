@@ -14,12 +14,12 @@ npm install
 ```
 
 This creates two files:
-* `mapnik.xml`, the Mapnik stylesheet
-* `mapnik.sql`, the PostgreSQL/plv8 functions
+* `stylesheet.xml`, the Mapnik stylesheet
+* `stylesheet.sql`, the PostgreSQL/plv8 functions
 
 Load the functions into the database, and you are good to go.
 ```
-psql gis < mapnik.sql
+psql gis < stylesheet.sql
 ```
 
 ## DOCUMENTATION
