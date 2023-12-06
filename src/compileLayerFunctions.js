@@ -7,9 +7,7 @@ module.exports = function compileLayerFunctions (layers, styleFieldValues, globa
     let result = `
 const twig = require('twig').twig
 const isTrue = require('./src/isTrue')
-function twigRender(data, values) {
-  return twig({data}).render(values)
-}
+const twigRender = require('./src/twigRender')
 function valueMap(value, map) {
   return value in map ? map[value] : value
 }
