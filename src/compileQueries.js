@@ -11,7 +11,7 @@ module.exports = function compileQueries (layers, fields, options) {
       funcname = options.schema + '.' + funcname
     }
 
-    return '(select unnest(' + funcname + '(type, osm_id, hstore_to_json(tags), json_build_object(\'scale_denominator\', !scale_denominator!, \'zoom\', round(log(2, 559082264 / !scale_denominator!))))) exprs, way from (' + query + ') t)'
+    return '(select unnest(' + funcname + '(type, osm_id, hstore_to_json(tags), json_build_object(\'scale_denominator\', !scale_denominator!, \'zoom\', round(log(2, 559082264 / !scale_denominator!))))) exprs, way, way_area from (' + query + ') t)'
   })
 
   const selects = Object.entries(fields).map(([field, values]) => {
@@ -23,7 +23,7 @@ module.exports = function compileQueries (layers, fields, options) {
     return null
   }).filter(v => v).join(', ')
 
-  let result = 'select ' + selects + (selects !== '' ? ', ' : '') + 'way from (' + layerQs.join(' union all ') + ') t order by cast(exprs->>\'zIndex\' as float)'
+  let result = 'select ' + selects + (selects !== '' ? ', ' : '') + 'way, way_area from (' + layerQs.join(' union all ') + ') t order by cast(exprs->>\'zIndex\' as float), way_area desc'
   result = result.replace(/</g, '&lt;')
   result = result.replace(/>/g, '&gt;')
   return result
