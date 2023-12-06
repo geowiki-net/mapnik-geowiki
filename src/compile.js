@@ -4,6 +4,7 @@ const fs = require('fs')
 const compileQueries = require('./compileQueries')
 const compileLayerFunctions = require('./compileLayerFunctions')
 const createPLV8Functions = require('./createPLV8Functions')
+const twigRender = require('./twigRender')
 
 const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
@@ -23,7 +24,10 @@ module.exports = function compile (data, options) {
   layer = layer.split('%query%').join(query)
   layer = layer.replace('%rules%', rules)
 
-  const stylesheet = template.split('%styles-layers%').join(layer)
+  let stylesheet = twigRender(template, {
+    background: data.background ?? '#ffffff'
+  })
+  stylesheet = stylesheet.split('%styles-layers%').join(layer)
 
   const sqlFuncs = compileLayerFunctions(data.layers, styleFieldValues, data, options)
 

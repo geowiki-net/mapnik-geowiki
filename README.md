@@ -26,6 +26,8 @@ psql gis < stylesheet.sql
 Stylesheet use the Geowiki format, which is based on YAML with TwigJS templates.
 ### Example
 ```yaml
+background: '#ffffff'
+
 layers:
 - query: way[highway]
   feature:
