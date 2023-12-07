@@ -30,7 +30,7 @@ module.exports = class Layer {
     } else {
       return Object.fromEntries(
         Object.entries(this.layer.query)
-          .map(([ z, query ]) => [ z, compileQuery(query) ])
+          .map(([z, query]) => [z, compileQuery(query)])
       )
     }
   }

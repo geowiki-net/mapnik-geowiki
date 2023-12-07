@@ -95,7 +95,6 @@ function getRuleFieldValues (conf, styleFieldValues) {
     if (fConfig.otherValues) {
       if (styleFieldValues[field].includes(undefined) ||
         styleFieldValues[field].filter(v => v !== undefined && !fConfig.values.includes(v)).length) {
-
         ruleFieldValues[field].push(undefined)
       }
     }
@@ -106,7 +105,7 @@ function getRuleFieldValues (conf, styleFieldValues) {
 
 function allCombinations (ruleFieldValues) {
   if (!Object.keys(ruleFieldValues).length) {
-    return [{filter: [], fields: {}}]
+    return [{ filter: [], fields: {} }]
   }
 
   let result = [{ filter: [], fields: {} }]

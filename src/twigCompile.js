@@ -19,6 +19,7 @@ module.exports = function twigCompile (str, fieldConfig = {}) {
     switch (fieldConfig.type) {
       case 'boolean':
         result = isTrue(str) ? 'true' : 'false'
+        break
       default:
         if (fieldConfig.valueMapping) {
           str = str in fieldConfig.valueMapping ? fieldConfig.valueMapping[str] : str

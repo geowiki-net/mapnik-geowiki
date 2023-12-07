@@ -8,25 +8,25 @@ function filter2mapnik (query) {
   }
 
   return Object.entries(dbLayout)
-    .map(([ table, layout ]) => filter2mapnik_table(table, layout, query))
+    .map(([table, layout]) => filter2mapnikTable(table, layout, query))
     .filter(v => v)
     .join(' union ')
 }
 
-function filter2mapnik_table(table, layout, query) {
+function filter2mapnikTable (table, layout, query) {
   let op
   let where = []
 
   const dbColumns = layout.textColumns.concat(layout.intColumns)
 
-  if (!query.type in layout.types && query.type !== 'nwr') {
+  if (!(query.type in layout.types) && query.type !== 'nwr') {
     return null
   }
 
-  let idSelect = "osm_id"
+  let idSelect = 'osm_id'
   let typeSelect = null
   let typeWhere = ''
-  let negId = false, posId = false
+  let negId = false; let posId = false
   Object.entries(layout.types).forEach(([type, idMod]) => {
     if (query.type !== type && query.type !== 'nwr') {
       return
