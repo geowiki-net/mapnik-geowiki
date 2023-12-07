@@ -84,7 +84,7 @@ function filter2mapnik_table(table, layout, query) {
 
     where = where.length ? where.join(' AND ') : 'true'
 
-    return `select ${typeSelect} as type, ${idSelect}, hstore(ARRAY[` + compileColumns(layout) + `]) || tags as tags, way, ${wayAreaSelect} from ${table} where ${typeWhere} ` + where
+    return `select ${typeSelect} as type, ${idSelect}, hstore_to_jsonb(hstore(ARRAY[` + compileColumns(layout) + `]) || tags) as tags, way, ${wayAreaSelect} from ${table} where ${typeWhere} ` + where
   }
 
   return ''
