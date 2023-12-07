@@ -12,9 +12,9 @@ module.exports = function createPLV8Functions (functions, options, callback) {
 
         const funcname = options.id + '_layer_' + i
         const str = `
-create or replace function ${funcname}(type text, id bigint, tags json, map json)
-  returns json[] as $$` + buf.toString() + '\n' +
-        'return Test.layer' + i + '(type, id, tags, map)\n' +
+create or replace function ${funcname}(bbox geometry, map jsonb)
+  returns setof jsonb as $$` + buf.toString() + '\n' +
+        'return Test.layer' + i + '(bbox, map)\n' +
         '$$ language plv8 IMMUTABLE STRICT;'
 
         done(null, str)
