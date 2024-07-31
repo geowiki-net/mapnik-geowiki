@@ -12,10 +12,6 @@ const template = fs.readFileSync('template.xml').toString()
 const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
 
 module.exports = function compile (data, options) {
-  if (!data.layers) {
-    data.layers = [data]
-  }
-
   const layers = data.layers.map((l, i) => new Layer(i, l, data, options))
   const styleFieldValues = getStyleFieldValues(data.layers, options)
   const zoomLevels = getZoomLevels(data.layers, options)
