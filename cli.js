@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
-const yaml = require('js-yaml')
 const ArgumentParser = require('argparse').ArgumentParser
 const compile = require('./src/compile')
+const loadStyleFile = require('./src/loadStyleFile')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -31,12 +31,11 @@ if (!options.id) {
   options.id = fileinfo.name
 }
 
-fs.readFile(options.filename, (err, body) => {
+loadStyleFile(options, (err, data) => {
   if (err) {
     return console.error(err)
   }
 
-  const data = yaml.load(body)
   const stylesheet = compile(data, options)
 
   const filename = options.id + '.xml'
