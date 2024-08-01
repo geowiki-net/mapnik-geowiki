@@ -26,9 +26,22 @@ parser.add_argument('--source', '-s', {
   default: '//overpass-api.de/api/interpreter'
 })
 
+parser.add_argument('--bbox', '-b', {
+  help: 'Render map in this bounding box (lat,lon,lat,lon)'
+})
+
 const options = parser.parse_args()
 
 const overpassFrontend = new OverpassFrontend(options.source)
+if (options.bbox) {
+  const b = options.bbox.split(',')
+  options.bbox = {
+    minlat: b[0],
+    minlon: b[1],
+    maxlat: b[2],
+    maxlon: b[3]
+  }
+}
 
 loadStyleFile(options, (err, data) => {
   if (err) {
@@ -39,7 +52,7 @@ loadStyleFile(options, (err, data) => {
   async.each(data.layers, (layer, done) => {
     overpassFrontend.BBoxQuery(
       layer.query,
-      layer.bbox,
+      options.bbox,
       {
         properties: OverpassFrontend.ALL
       },
