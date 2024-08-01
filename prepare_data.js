@@ -6,6 +6,7 @@ const async = require('async')
 const ArgumentParser = require('argparse').ArgumentParser
 const OverpassFrontend = require('overpass-frontend')
 const loadStyleFile = require('./src/loadStyleFile')
+const evaluate = require('./src/evaluate')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -48,29 +49,13 @@ loadStyleFile(options, (err, data) => {
     return console.error(err)
   }
 
-  const features = []
-  async.each(data.layers, (layer, done) => {
-    overpassFrontend.BBoxQuery(
-      layer.query,
-      options.bbox,
-      {
-        properties: OverpassFrontend.ALL
-      },
-      (err, item) => {
-        const twigData = {
-          tags: item.tags
-        }
-
-        const geojson = item.GeoJSON()
-        geojson.properties = {color: '#00ff00'}
-        features.push(geojson)
-      },
-      (err) => {
-        done(err)
-      }
-    )
-  }, (err) => {
+  async.map(data.layers, (layerOptions, done) => {
+    layerOptions.overpassFrontend = overpassFrontend
+    evaluate(layerOptions, done)
+  }, (err, result) => {
+    const features = [...result]
     console.error(err)
+    console.log(features)
     fs.writeFileSync('data.geojson', JSON.stringify({
       type: 'FeatureCollection',
       features
