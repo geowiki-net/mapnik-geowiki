@@ -4,6 +4,7 @@ const SymbolizerConf = require('./mapnikSymbolizer.json')
 const fieldConfig = require('./fieldConfig.json')
 
 function mightTrue (values) {
+  if (!values) { return false }
   return values
     .map(v => v === undefined || isTrue(v))
     .includes(true)
