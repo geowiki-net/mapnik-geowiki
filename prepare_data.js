@@ -7,6 +7,7 @@ const ArgumentParser = require('argparse').ArgumentParser
 const OverpassFrontend = require('overpass-frontend')
 const loadStyleFile = require('./src/loadStyleFile')
 const GeowikiLayer = require('geowiki-layer')
+const child_process = require('child_process')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -80,5 +81,14 @@ loadStyleFile(options, (err, data) => {
       type: 'FeatureCollection',
       features
     }))
+
+    render()
   })
 })
+
+function render () {
+  const bounds = new BoundingBox(options.bbox)
+  child_process.exec('nik4 -z 18 -b ' + bounds.minlon + ' ' + bounds.minlat + ' ' + bounds.maxlon + ' ' + bounds.maxlat + ' highway.xml image.pdf', (err) => {
+    console.log(err)
+  })
+}
