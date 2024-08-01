@@ -24,7 +24,7 @@
     "Geowiki"
   ],
   "author": "Stephan Bösch-Plepelits <skunk@xover.mud.at>",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/geowiki-net/mapnik-geowiki/issues"
   },
