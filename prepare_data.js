@@ -6,7 +6,7 @@ const async = require('async')
 const ArgumentParser = require('argparse').ArgumentParser
 const OverpassFrontend = require('overpass-frontend')
 const loadStyleFile = require('./src/loadStyleFile')
-const evaluate = require('./src/evaluate')
+const GeowikiLayer = require('geowiki-layer')
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -51,11 +51,31 @@ loadStyleFile(options, (err, data) => {
 
   async.map(data.layers, (layerOptions, done) => {
     layerOptions.overpassFrontend = overpassFrontend
-    evaluate(layerOptions, done)
+    const layer = new GeowikiLayer(layerOptions)
+    layer.moveTo({
+      bounds: options.bbox,
+      zoom: 16
+    }, (err) => {
+      done(null, layer.features())
+      console.log('loaded')
+    })
   }, (err, result) => {
-    const features = [...result]
-    console.error(err)
-    console.log(features)
+    const features = []
+
+    result
+      .flat()
+      .forEach(item => {
+        const geojson = item.object.GeoJSON()
+
+        item.data.styles.forEach(style => {
+          features.push({
+            type: 'Feature',
+            geometry: geojson.geometry,
+            properties: style === 'default' ? item.data.style : item.data['style:' + style]
+          })
+        })
+      })
+
     fs.writeFileSync('data.geojson', JSON.stringify({
       type: 'FeatureCollection',
       features
