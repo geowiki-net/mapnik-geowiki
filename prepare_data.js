@@ -7,6 +7,7 @@ const ArgumentParser = require('argparse').ArgumentParser
 const OverpassFrontend = require('overpass-frontend')
 const loadStyleFile = require('./src/loadStyleFile')
 const GeowikiLayer = require('geowiki-layer')
+const BoundingBox = require('boundingbox')
 const child_process = require('child_process')
 
 const parser = new ArgumentParser({
