@@ -105,6 +105,9 @@ loadStyleFile(options, (err, data) => {
 function render () {
   const bounds = new BoundingBox(options.bbox)
   const p = child_process.spawn('nik4', ['-z', 18, '-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat, options.id + '.xml', options.output])
+
+  p.stdout.on('data', data => console.log(data.toString()))
+  p.stderr.on('data', data => console.error(data.toString()))
   p.on('close', code => {
     console.log('closed with code ' + code)
   })
