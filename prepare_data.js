@@ -99,7 +99,8 @@ loadStyleFile(options, (err, data) => {
 
 function render () {
   const bounds = new BoundingBox(options.bbox)
-  child_process.exec('nik4 -z 18 -b ' + bounds.minlon + ' ' + bounds.minlat + ' ' + bounds.maxlon + ' ' + bounds.maxlat + ' ' + options.id + '.xml image.pdf', (err) => {
-    console.log(err)
+  const p = child_process.spawn('nik4', ['-z', 18, '-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat, options.id + '.xml', 'image.svg'])
+  p.on('close', code => {
+    console.log('closed with code ' + code)
   })
 }
