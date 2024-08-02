@@ -18,6 +18,7 @@
       "stroke-linejoin": "lineJoin",
       "stroke-linecap": "lineCap",
       "stroke-dasharray": "dashArray",
+      "offset": "offset",
       "comp-op": "compositingOperation",
       "smooth": "smoothFactor"
     }
