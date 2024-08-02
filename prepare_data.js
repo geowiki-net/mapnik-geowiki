@@ -32,6 +32,11 @@ parser.add_argument('--bbox', '-b', {
   help: 'Render map in this bounding box (lat,lon,lat,lon)'
 })
 
+parser.add_argument('--output', '-o', {
+  help: 'Output image file (default: image.svg)',
+  default: 'image.svg'
+})
+
 const options = parser.parse_args()
 
 const overpassFrontend = new OverpassFrontend(options.source)
@@ -99,7 +104,7 @@ loadStyleFile(options, (err, data) => {
 
 function render () {
   const bounds = new BoundingBox(options.bbox)
-  const p = child_process.spawn('nik4', ['-z', 18, '-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat, options.id + '.xml', 'image.svg'])
+  const p = child_process.spawn('nik4', ['-z', 18, '-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat, options.id + '.xml', options.output])
   p.on('close', code => {
     console.log('closed with code ' + code)
   })
