@@ -31,7 +31,11 @@
       "size": "textFontSize",
       "placement": "textPlacement",
       "opacity": "textOpacity",
-      "fill": "textColor"
+      "fill": "textColor",
+      "halo-fill": "textHaloColor",
+      "halo-radius": "textHaloRadius",
+      "halo-comp-op": "textHaloCompositingOperation",
+      "character-spacing": "textLetterSpacing"
     }
   }
 }
