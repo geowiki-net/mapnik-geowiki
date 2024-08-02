@@ -4,6 +4,7 @@
   "description": "Renders a Geowiki map with Mapnik",
   "main": "",
   "dependencies": {
+    "@turf/buffer": "^7.0.0",
     "argparse": "^2.0.1",
     "browserify": "^17.0.0",
     "geowiki-layer": "github:geowiki-net/geowiki-layer",

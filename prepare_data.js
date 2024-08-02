@@ -9,6 +9,9 @@ const loadStyleFile = require('./src/loadStyleFile')
 const GeowikiLayer = require('geowiki-layer')
 const BoundingBox = require('boundingbox')
 const child_process = require('child_process')
+const turf = {
+  buffer: require('@turf/buffer').default
+}
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -65,6 +68,8 @@ if ('zoom' in options) {
   options.zoom = parseFloat(options.zoom)
 }
 
+const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
+
 loadStyleFile(options, (err, data) => {
   if (err) {
     return console.error(err)
@@ -89,10 +94,24 @@ loadStyleFile(options, (err, data) => {
         const geojson = item.object.GeoJSON()
 
         item.data.styles.forEach(style => {
+          let properties = style === 'default' ? item.data.style : item.data['style:' + style]
+          let geometry = geojson.geometry
+
+          if (geometry.type === 'Point') {
+            let radius = parseFloat(properties.radius ?? 10)
+            switch (properties.nodeFeature ?? 'CircleMarker') {
+              case 'CircleMarker':
+                radius = radius * metersPerPixel / 1000
+                /* fallthrough */
+              case 'Circle':
+                geometry = turf.buffer(geometry, radius, {unit: 'meters'}).geometry
+            }
+          }
+
           features.push({
             type: 'Feature',
-            geometry: geojson.geometry,
-            properties: style === 'default' ? item.data.style : item.data['style:' + style]
+            geometry,
+            properties
           })
         })
       })
