@@ -35,6 +35,12 @@ parser.add_argument('--bbox', '-b', {
 const options = parser.parse_args()
 
 const overpassFrontend = new OverpassFrontend(options.source)
+
+if (!options.id) {
+  const fileinfo = path.parse(options.filename)
+  options.id = fileinfo.name
+}
+
 if (options.bbox) {
   const b = options.bbox.split(',')
   options.bbox = {
@@ -93,7 +99,7 @@ loadStyleFile(options, (err, data) => {
 
 function render () {
   const bounds = new BoundingBox(options.bbox)
-  child_process.exec('nik4 -z 18 -b ' + bounds.minlon + ' ' + bounds.minlat + ' ' + bounds.maxlon + ' ' + bounds.maxlat + ' highway.xml image.pdf', (err) => {
+  child_process.exec('nik4 -z 18 -b ' + bounds.minlon + ' ' + bounds.minlat + ' ' + bounds.maxlon + ' ' + bounds.maxlat + ' ' + options.id + '.xml image.pdf', (err) => {
     console.log(err)
   })
 }
