@@ -29,6 +29,8 @@
     "fieldMapping": {
       "face-name": "textFontName",
       "size": "textFontSize",
+      "dx": "textMoveX",
+      "dy": "textMoveY",
       "placement": "textPlacement",
       "opacity": "textOpacity",
       "fill": "textColor",

@@ -17,5 +17,10 @@
   "textPlacement": "line",
   "textOpacity": 1,
   "textColor": "#000000",
-  "textFontSize": 10
+  "textFontSize": 10,
+  "textHaloRadius": 0,
+  "textHaloCompositingOperation": "",
+  "textLetterSpacing": 0,
+  "textMoveX": 0,
+  "textMoveY": 0
 }
