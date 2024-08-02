@@ -33,6 +33,10 @@ parser.add_argument('--bbox', '-b', {
   help: 'Render map in this bounding box (lat,lon,lat,lon)'
 })
 
+parser.add_argument('--zoom', '-z', {
+  help: 'Render map for this zoom level'
+})
+
 parser.add_argument('--output', '-o', {
   help: 'Output image file (default: image.svg)',
   default: 'image.svg'
@@ -106,7 +110,13 @@ loadStyleFile(options, (err, data) => {
 function render () {
   const bounds = new BoundingBox(options.bbox)
 
-  const param = ['-z', 18, '-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat]
+  const param = ['-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat]
+
+  if (options.zoom) {
+    param.push('-z')
+    param.push(options.zoom)
+  }
+
   param.push(options.id + '.xml')
   param.push(options.output)
 
