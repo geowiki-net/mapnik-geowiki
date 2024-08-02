@@ -15,6 +15,8 @@
   "compositingOperation": "",
   "textFontName": "DejaVu Sans Oblique",
   "textPlacement": "line",
+  "textHorizontalAlign": "auto",
+  "textVerticalAlign": "auto",
   "textOpacity": 1,
   "textColor": "#000000",
   "textFontSize": 10,

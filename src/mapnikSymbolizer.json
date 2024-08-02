@@ -34,6 +34,8 @@
       "placement": "textPlacement",
       "opacity": "textOpacity",
       "fill": "textColor",
+      "horizontal-alignment": "textHorizontalAlign",
+      "vertical-alignment": "textVerticalAlign",
       "halo-fill": "textHaloColor",
       "halo-radius": "textHaloRadius",
       "halo-comp-op": "textHaloCompositingOperation",
