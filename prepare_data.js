@@ -54,10 +54,10 @@ if (!options.id) {
 if (options.bbox) {
   const b = options.bbox.split(',')
   options.bbox = {
-    minlat: b[0],
-    minlon: b[1],
-    maxlat: b[2],
-    maxlon: b[3]
+    minlat: parseFloat(b[0]),
+    minlon: parseFloat(b[1]),
+    maxlat: parseFloat(b[2]),
+    maxlon: parseFloat(b[3])
   }
 }
 
