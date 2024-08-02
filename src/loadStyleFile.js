@@ -6,8 +6,13 @@ module.exports = function (options, callback) {
     if (err) { return callback(err) }
 
     const data = yaml.load(body)
+    const dataConst = data.const
 
-    if (!data.layers) {
+    if (data.layers) {
+      data.layers.forEach(layer => {
+        layer.const = dataConst
+      })
+    } else {
       data.layers = [data]
     }
 
