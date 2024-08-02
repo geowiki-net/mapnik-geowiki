@@ -61,6 +61,10 @@ if (options.bbox) {
   }
 }
 
+if ('zoom' in options) {
+  options.zoom = parseFloat(options.zoom)
+}
+
 loadStyleFile(options, (err, data) => {
   if (err) {
     return console.error(err)
@@ -71,7 +75,7 @@ loadStyleFile(options, (err, data) => {
     const layer = new GeowikiLayer(layerOptions)
     layer.moveTo({
       bounds: options.bbox,
-      zoom: 16
+      zoom: options.zoom
     }, (err) => {
       done(null, layer.features())
       console.log('loaded')
@@ -112,7 +116,7 @@ function render () {
 
   const param = ['-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat]
 
-  if (options.zoom) {
+  if ('zoom' in options) {
     param.push('-z')
     param.push(options.zoom)
   }
