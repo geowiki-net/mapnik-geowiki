@@ -77,6 +77,11 @@ loadStyleFile(options, (err, data) => {
         })
       })
 
+    features
+      .sort((a, b) => {
+        return (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0)
+      })
+
     fs.writeFileSync('data.geojson', JSON.stringify({
       type: 'FeatureCollection',
       features
