@@ -15,5 +15,9 @@
   "lineJoin": {
     "values": ["miter", "round", "bevel"],
     "otherValues": false
+  },
+  "textFontName": {
+    "values": [],
+    "otherValues": true
   }
 }

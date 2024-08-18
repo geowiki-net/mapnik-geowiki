@@ -93,7 +93,10 @@ function getRuleFieldValues (conf, styleFieldValues) {
       }
     }
 
+
     if (fConfig.otherValues) {
+      ruleFieldValues[field] = ruleFieldValues[field].concat(styleFieldValues[field])
+
       if (styleFieldValues[field].includes(undefined) ||
         styleFieldValues[field].filter(v => v !== undefined && !fConfig.values.includes(v)).length) {
         ruleFieldValues[field].push(undefined)
