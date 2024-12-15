@@ -81,7 +81,7 @@ function compileParameter (style, def, filterFields) {
 }
 
 function getRuleFieldValues (conf, styleFieldValues) {
-  const ruleFieldValues = {}
+  let ruleFieldValues = {}
 
   Object.values(conf.fieldMapping).forEach(field => {
     const fConfig = fieldConfig[field] ?? {}
@@ -103,6 +103,10 @@ function getRuleFieldValues (conf, styleFieldValues) {
       }
     }
   })
+
+  ruleFieldValues = Object.fromEntries(Object.entries(ruleFieldValues).map(([k, vs]) => {
+    return [k, arrayUnique(vs)]
+  }))
 
   return ruleFieldValues
 }
@@ -155,4 +159,8 @@ function allCombinations (ruleFieldValues) {
   })
 
   return result
+}
+
+function arrayUnique (arr) {
+  return Array.from(new Set(arr))
 }
