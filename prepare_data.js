@@ -97,6 +97,10 @@ loadStyleFile(options, (err, data) => {
           let properties = style === 'default' ? item.data.style : item.data['style:' + style]
           let geometry = geojson.geometry
 
+          if (!properties) {
+            return
+          }
+
           if (geometry.type === 'Point') {
             let radius = parseFloat(properties.radius ?? 10)
             switch (properties.nodeFeature ?? 'CircleMarker') {
