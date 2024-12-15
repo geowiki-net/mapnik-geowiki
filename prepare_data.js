@@ -112,10 +112,6 @@ loadStyleFile(options, (err, data) => {
             }
           }
 
-          if (!properties) {
-            return
-          }
-
           features.push({
             type: 'Feature',
             geometry,
