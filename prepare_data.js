@@ -9,6 +9,7 @@ const loadStyleFile = require('./src/loadStyleFile')
 const GeowikiLayer = require('geowiki-layer')
 const BoundingBox = require('boundingbox')
 const child_process = require('child_process')
+const Layer = require('./src/Layer')
 const turf = {
   buffer: require('@turf/buffer').default
 }
@@ -75,9 +76,10 @@ loadStyleFile(options, (err, data) => {
     return console.error(err)
   }
 
-  async.map(data.layers, (layerOptions, done) => {
-    layerOptions.overpassFrontend = overpassFrontend
-    const layer = new GeowikiLayer(layerOptions)
+  async.mapValues(data.layers, (layerOptions, i, done) => {
+    const _layer = new Layer(i, layerOptions)
+    _layer.layer.overpassFrontend = overpassFrontend
+    const layer = new GeowikiLayer(_layer.layer)
     layer.moveTo({
       bounds: options.bbox,
       zoom: options.zoom
@@ -88,7 +90,7 @@ loadStyleFile(options, (err, data) => {
   }, (err, result) => {
     const features = []
 
-    result
+    Object.values(result)
       .flat()
       .forEach(item => {
         const geojson = item.object.GeoJSON()
