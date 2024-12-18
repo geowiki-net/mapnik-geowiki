@@ -137,9 +137,12 @@ loadStyleFile(options, (err, data) => {
 })
 
 function render () {
-  const bounds = new BoundingBox(options.bbox)
+  let param = []
 
-  const param = ['-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat]
+  if ('bbox' in options) {
+    const bounds = new BoundingBox(options.bbox)
+    param = param.concat(['-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat])
+  }
 
   if ('zoom' in options) {
     param.push('-z')
