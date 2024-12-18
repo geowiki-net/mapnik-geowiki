@@ -21,6 +21,12 @@ module.exports = class Layer {
     if (!this.layer.feature.style) {
       this.layer.feature.style = {}
     }
+
+    for (let k in this.layer.feature) {
+      if (k === 'style' || k.match(/^style:/)) {
+        this.layer.feature[k] = { ...defaultStyle, ...this.layer.feature[k] }
+      }
+    }
   }
 
   zoomLevelActive (zoom) {
