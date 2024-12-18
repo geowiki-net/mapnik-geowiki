@@ -10,6 +10,17 @@ module.exports = class Layer {
     this.layer = layer
     this.globalData = globalData
     this.options = options
+    this.setDefaultConfig()
+  }
+
+  setDefaultConfig () {
+    if (!this.layer.feature) {
+      this.layer.feature = {}
+    }
+
+    if (!this.layer.feature.style) {
+      this.layer.feature.style = {}
+    }
   }
 
   zoomLevelActive (zoom) {
