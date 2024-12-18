@@ -40,7 +40,8 @@
       "halo-radius": "textHaloRadius",
       "halo-comp-op": "textHaloCompositingOperation",
       "character-spacing": "textLetterSpacing",
-      "spacing": "textRepeatSpacing"
+      "spacing": "textRepeatSpacing",
+      "wrap-width": "textWrapWidth"
     }
   }
 }

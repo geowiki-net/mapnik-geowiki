@@ -27,5 +27,6 @@
   "textLetterSpacing": 0,
   "textRepeatSpacing": "",
   "textMoveX": 0,
-  "textMoveY": 0
+  "textMoveY": 0,
+  "textWrapWidth": 0
 }
