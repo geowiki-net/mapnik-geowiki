@@ -138,6 +138,23 @@ function optimalZoom (bbox, sizePixels) {
   }
 }
 
+const bottomLeft = merc.px([ options.bbox.minlon, options.bbox.minlat ], options.zoom)
+const upperRight = merc.px([ options.bbox.maxlon, options.bbox.maxlat ], options.zoom)
+const size = [ upperRight[0] - bottomLeft[0], bottomLeft[1] - upperRight[1] ]
+console.log('Size of bounding box at zoom', size)
+
+if (options.size) {
+  const newBL = merc.ll([bottomLeft[0] - (options.size[0] - size[0]) / 2, bottomLeft[1] + (options.size[1] - size[1]) / 2], options.zoom)
+  const newUR = merc.ll([upperRight[0] + (options.size[0] - size[0]) / 2, upperRight[1] - (options.size[1] - size[1]) / 2], options.zoom)
+
+  options.bbox = {
+    minlon: newBL[0],
+    minlat: newBL[1],
+    maxlon: newUR[0],
+    maxlat: newUR[1]
+  }
+}
+
 const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
 
 loadStyleFile(options, (err, data) => {
