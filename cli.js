@@ -52,9 +52,29 @@ parser.add_argument('--output', '-o', {
   default: 'image.svg'
 })
 
+parser.add_argument('--cache-file', {
+  help: 'Dump and restore OSM object cache from/to this file. Only active for remote servers. For disabling, set to empty file name.',
+  default: 'data.cache',
+})
+
 const options = parser.parse_args()
 
 const overpassFrontend = new OverpassFrontend(options.source)
+
+let cacheEnabled = options.cache_file !== ''
+if (!options.source.match(/^(https?:)?\/\//)) {
+  cacheEnabled = false
+}
+if (!overpassFrontend.cacheDump) {
+  cacheEnabled = false
+}
+console.log('cache enabled', cacheEnabled)
+
+if (cacheEnabled) {
+  if (fs.existsSync(options.cache_file)) {
+    overpassFrontend.cacheRestore(JSON.parse(fs.readFileSync(options.cache_file)))
+  }
+}
 
 if (!options.id) {
   const fileinfo = path.parse(options.filename)
@@ -143,6 +163,10 @@ loadStyleFile(options, (err, data) => {
       type: 'FeatureCollection',
       features
     }))
+
+    if (cacheEnabled) {
+      fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
+    }
 
     render()
   })

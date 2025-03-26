@@ -9,7 +9,7 @@
     "browserify": "^17.0.0",
     "geowiki-layer": "github:geowiki-net/geowiki-layer",
     "js-yaml": "^4.1.0",
-    "overpass-frontend": "github:plepe/overpass-frontend#sets",
+    "overpass-frontend": "github:plepe/overpass-frontend#sets-cacheDumpRestore",
     "pg-hstore": "^2.3.4",
     "twig": "^1.16.0"
   },
