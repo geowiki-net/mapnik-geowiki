@@ -45,6 +45,10 @@ parser.add_argument('--bbox', '-b', {
   help: 'Render map in this bounding box (lat,lon,lat,lon)'
 })
 
+parser.add_argument('--center', '-c', {
+  help: 'Center map on this coordinate (lat,lon)'
+})
+
 parser.add_argument('--size', {
   help: 'Render map in this final output size (e.g. 1920x1080) (Attention: SVG is using pt, so output seems 25% larger)',
 })
@@ -87,7 +91,16 @@ if (!options.id) {
   options.id = fileinfo.name
 }
 
-if (options.bbox) {
+if (options.center) {
+  const b = options.center.split(',')
+  options.bbox = {
+    minlat: parseFloat(b[0]),
+    minlon: parseFloat(b[1]),
+    maxlat: parseFloat(b[0]),
+    maxlon: parseFloat(b[1])
+  }
+}
+else if (options.bbox) {
   const b = options.bbox.split(',')
   options.bbox = {
     minlat: parseFloat(b[0]),
