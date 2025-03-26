@@ -14,6 +14,8 @@ const Layer = require('./src/Layer')
 const turf = {
   buffer: require('@turf/buffer').default
 }
+const { SphericalMercator } = require('@mapbox/sphericalmercator')
+const merc = new SphericalMercator()
 
 const parser = new ArgumentParser({
   add_help: true,
@@ -41,6 +43,10 @@ parser.add_argument('--schema', {
 
 parser.add_argument('--bbox', '-b', {
   help: 'Render map in this bounding box (lat,lon,lat,lon)'
+})
+
+parser.add_argument('--size', {
+  help: 'Render map in this final output size (e.g. 1920x1080) (Attention: SVG is using pt, so output seems 25% larger)',
 })
 
 parser.add_argument('--zoom', '-z', {
@@ -91,8 +97,45 @@ if (options.bbox) {
   }
 }
 
-if ('zoom' in options) {
+if (options.size) {
+  options.size = options.size.split('x').map(v => parseInt(v))
+}
+
+if (options.zoom) {
   options.zoom = parseFloat(options.zoom)
+} else {
+  if (!options.size) {
+    console.log("Specify either output size or zoom level.")
+    process.exit(1)
+  }
+}
+
+if (!options.zoom) {
+  options.zoom = optimalZoom(options.bbox, options.size)
+  console.log('optimal zoom', options.zoom)
+}
+
+function optimalZoom (bbox, sizePixels) {
+  let scale = 1
+  let zoom = 1
+  const precision = 0.1
+
+  while (true) {
+    const bottomLeft = merc.px([ options.bbox.minlon, options.bbox.minlat ], zoom)
+    const upperRight = merc.px([ options.bbox.maxlon, options.bbox.maxlat ], zoom)
+    const size = [ upperRight[0] - bottomLeft[0], bottomLeft[1] - upperRight[1] ]
+
+    if (size[0] < sizePixels[0] - precision && size[1] < sizePixels[1] - precision) {
+      zoom += scale
+    }
+    else if (size[0] > sizePixels[0] || size[1] > sizePixels[1]) {
+      zoom -= scale
+      scale /= 2
+    }
+    else {
+      return zoom
+    }
+  }
 }
 
 const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
