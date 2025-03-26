@@ -53,6 +53,10 @@ parser.add_argument('--size', {
   help: 'Render map in this final output size (e.g. 1920x1080) (Attention: SVG is using pt, so output seems 25% larger)',
 })
 
+parser.add_argument('--margin', {
+  help: 'Increase the final output size by n pixels to either side by increasing the bounding box accordingly (e.g. "200" resp. "200x300").',
+})
+
 parser.add_argument('--zoom', '-z', {
   help: 'Render map for this zoom level'
 })
@@ -114,6 +118,15 @@ if (options.size) {
   options.size = options.size.split('x').map(v => parseInt(v))
 }
 
+if (options.margin) {
+  options.margin = options.margin.split('x').map(v => parseInt(v))
+  if (options.margin.length === 1) {
+    options.margin = [ options.margin[0], options.margin[0] ]
+  }
+} else {
+  options.margin = [ 0, 0 ]
+}
+
 if (options.zoom) {
   options.zoom = parseFloat(options.zoom)
 } else {
@@ -156,16 +169,19 @@ const upperRight = merc.px([ options.bbox.maxlon, options.bbox.maxlat ], options
 const size = [ upperRight[0] - bottomLeft[0], bottomLeft[1] - upperRight[1] ]
 console.log('Size of bounding box at zoom', size)
 
-if (options.size) {
-  const newBL = merc.ll([bottomLeft[0] - (options.size[0] - size[0]) / 2, bottomLeft[1] + (options.size[1] - size[1]) / 2], options.zoom)
-  const newUR = merc.ll([upperRight[0] + (options.size[0] - size[0]) / 2, upperRight[1] - (options.size[1] - size[1]) / 2], options.zoom)
+if (!options.size) {
+  options.size = size
+}
+options.size = [ options.size[0] + options.margin[0] * 2, options.size[1] + options.margin[1] * 2 ]
 
-  options.bbox = {
-    minlon: newBL[0],
-    minlat: newBL[1],
-    maxlon: newUR[0],
-    maxlat: newUR[1]
-  }
+const newBL = merc.ll([bottomLeft[0] - (options.size[0] - size[0]) / 2, bottomLeft[1] + (options.size[1] - size[1]) / 2], options.zoom)
+const newUR = merc.ll([upperRight[0] + (options.size[0] - size[0]) / 2, upperRight[1] - (options.size[1] - size[1]) / 2], options.zoom)
+
+options.bbox = {
+  minlon: newBL[0],
+  minlat: newBL[1],
+  maxlon: newUR[0],
+  maxlat: newUR[1]
 }
 
 const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
