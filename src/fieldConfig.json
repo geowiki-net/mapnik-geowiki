@@ -16,6 +16,10 @@
     "values": ["miter", "round", "bevel"],
     "otherValues": false
   },
+  "textPlacement": {
+    "values": ["line", "point", "vertex", "interior"],
+    "otherValues": false
+  },
   "textFontName": {
     "values": [],
     "otherValues": true
