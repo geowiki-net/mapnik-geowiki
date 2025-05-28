@@ -45,6 +45,19 @@ module.exports = class Layer {
     ))
   }
 
+  compileQueries () {
+    if (typeof this.layer.query === 'string') {
+      return {
+        0: compileQuery(this.layer.query, this.options)
+      }
+    } else {
+      return Object.fromEntries(
+        Object.entries(this.layer.query)
+          .map(([z, query]) => [z, compileQuery(query, this.options)])
+      )
+    }
+  }
+
   getFeatureStyleFieldValues (feature) {
     const fieldValues = {}
 
