@@ -15,6 +15,10 @@ module.exports = class Layer {
   featureDescriptors () {
     const result = ['feature']
 
+    if ('groupFeature' in this.layer) {
+      result.push('groupFeature')
+    }
+
     return result
   }
 
@@ -30,7 +34,7 @@ module.exports = class Layer {
 
       for (const k in this.layer[featureId]) {
         if (k === 'style' || k.match(/^style:/)) {
-          this.layer[featureId][k] = { ...defaultStyle, ...this.layer.feature[k] }
+          this.layer[featureId][k] = { ...defaultStyle, ...this.layer[featureId][k] }
         }
       }
     })
