@@ -1,5 +1,6 @@
 const twigCompile = require('./twigCompile')
 const compileQuery = require('./compileQuery')
+const mergeStyleFieldValues = require('./mergeStyleFieldValues')
 
 const defaultStyle = require('./defaultStyle.json')
 const fieldConfig = require('./fieldConfig.json')
@@ -96,12 +97,18 @@ module.exports = class Layer {
   }
 
   getStyleFieldValues () {
+    return mergeStyleFieldValues(this.featureDescriptors().map(featureId =>
+      this.getFeatureStyleFieldValues(this.layer[featureId])
+    ))
+  }
+
+  getFeatureStyleFieldValues (feature) {
     const fieldValues = {}
 
-    Object.keys(this.layer.feature ?? {})
+    Object.keys(feature)
       .filter(styleId => styleId === 'style' || styleId.match(/^style:/))
       .forEach(styleId => {
-        const style = this.layer.feature[styleId]
+        const style = feature[styleId]
 
         Object.entries(style).forEach(([k, v]) => {
           const fConfig = fieldConfig[k] ?? {}
