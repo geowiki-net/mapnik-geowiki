@@ -13,20 +13,28 @@ module.exports = class Layer {
     this.setDefaultConfig()
   }
 
+  featureDescriptors () {
+    const result = ['feature']
+
+    return result
+  }
+
   setDefaultConfig () {
     if (!this.layer.feature) {
       this.layer.feature = {}
     }
 
-    if (!this.layer.feature.style) {
-      this.layer.feature.style = {}
-    }
-
-    for (let k in this.layer.feature) {
-      if (k === 'style' || k.match(/^style:/)) {
-        this.layer.feature[k] = { ...defaultStyle, ...this.layer.feature[k] }
+    this.featureDescriptors().forEach(featureId => {
+      if (!this.layer[featureId].style) {
+        this.layer[featureId].style = {}
       }
-    }
+
+      for (let k in this.layer[featureId]) {
+        if (k === 'style' || k.match(/^style:/)) {
+          this.layer[featureId][k] = { ...defaultStyle, ...this.layer.feature[k] }
+        }
+      }
+    })
   }
 
   zoomLevelActive (zoom) {
