@@ -14,6 +14,7 @@ const Layer = require('./src/Layer')
 const turf = {
   buffer: require('@turf/buffer').default
 }
+require('./modules.js')
 const { SphericalMercator } = require('@mapbox/sphericalmercator')
 const merc = new SphericalMercator()
 
