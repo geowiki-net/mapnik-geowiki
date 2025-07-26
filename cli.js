@@ -246,6 +246,10 @@ loadStyleFile(options, (err, data) => {
           let properties = style === 'default' ? item.data.style : item.data['style:' + style]
           let geometry = geojson.geometry
 
+          if (properties.geometry) {
+            geometry = JSON.parse(properties.geometry)
+          }
+
           if (!properties) {
             return
           }
