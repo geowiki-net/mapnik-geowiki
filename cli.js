@@ -15,6 +15,7 @@ const turf = {
   buffer: require('@turf/buffer').default
 }
 require('./modules.js')
+require('./src/debug')
 const { SphericalMercator } = require('@mapbox/sphericalmercator')
 const merc = new SphericalMercator()
 
