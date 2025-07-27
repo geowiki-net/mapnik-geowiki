@@ -248,10 +248,16 @@ loadStyleFile(options, (err, data) => {
           let geometry = geojson.geometry
 
           if (properties.geometry) {
-            geometry = JSON.parse(properties.geometry)
+            try {
+              geometry = JSON.parse(properties.geometry)
+            }
+            catch (e) {
+              console.error("Can't parse geometry: \"" + properties.geometry + "\"")
+              return
+            }
           }
 
-          if (!properties) {
+          if (!properties || !geometry) {
             return
           }
 
