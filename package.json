@@ -2,7 +2,7 @@
   "name": "mapnik-geowiki",
   "version": "0.0.0",
   "description": "Renders a Geowiki map with Mapnik",
-  "main": "",
+  "main": "src/app.js",
   "bin": {
     "mapnik-geowiki": "cli.js"
   },
