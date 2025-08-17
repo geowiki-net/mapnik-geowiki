@@ -67,4 +67,8 @@ const options = parser.parse_args()
 options.parameters = JSON.parse(options.parameters)
 
 mapnikGeowiki(options, function (err) {
+  if (err) {
+    console.error(err.message)
+    process.exit(1)
+  }
 })
