@@ -20,7 +20,8 @@
     "twig": "^1.16.0"
   },
   "scripts": {
-    "lint": "standard --fix cli.js src/*.js"
+    "lint": "standard --fix cli.js src/*.js",
+    "test": "mocha --bail"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
   },
   "homepage": "https://github.com/geowiki-net/mapnik-geowiki#readme",
   "devDependencies": {
+    "mocha": "^11.7.1",
     "standard": "^17.1.0"
   }
 }
