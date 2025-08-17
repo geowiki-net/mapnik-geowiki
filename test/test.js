@@ -27,7 +27,7 @@ describe('Prepare', function () {
 })
 
 describe('Render from parameters', function () {
-  it('Render buildings', function (done) {
+  it('Render buildings with bbox', function (done) {
     this.timeout(20000)
     mapnikGeowiki({
       size: '100x100',
@@ -38,6 +38,21 @@ describe('Render from parameters', function () {
     }, function (err, result) {
       if (err) { return done(err) }
       test('1.svg', done)
+    })
+  })
+
+  it('Render buildings with center', function (done) {
+    this.timeout(20000)
+    mapnikGeowiki({
+      size: '100x100',
+      center: '48.19988,16.33743',
+      zoom: 16,
+      style: 'test/buildings.yaml',
+      source: 'test/data.osm.bz2',
+      output: 'test/generated/2.svg',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('2.svg', done)
     })
   })
 })
