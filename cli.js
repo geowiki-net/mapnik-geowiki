@@ -21,11 +21,12 @@ const merc = new SphericalMercator()
 
 const parser = new ArgumentParser({
   add_help: true,
-  description: 'Convert a geowiki stylesheet into a Mapnik stylesheet'
+  description: 'Render a Geowiki stylesheet with Mapnik to an image'
 })
 
-parser.add_argument('filename', {
-  help: 'The geowiki stylesheet to compile, e.g. "file.yaml"'
+parser.add_argument('--style', '-S', {
+  help: 'The geowiki stylesheet to compile, e.g. "file.yaml"',
+  default: 'default.yaml'
 })
 
 parser.add_argument('--id', '-i', {
@@ -100,7 +101,7 @@ if (cacheEnabled) {
 }
 
 if (!options.id) {
-  const fileinfo = path.parse(options.filename)
+  const fileinfo = path.parse(options.style)
   options.id = fileinfo.name
 }
 
