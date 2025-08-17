@@ -55,6 +55,10 @@ if (options.center && options.bbox) {
       maxlat: parseFloat(b[0]),
       maxlon: parseFloat(b[1])
     }
+
+    if (!options.zoom) {
+      return callback(new Error('Parameter --center requires zoom level'))
+    }
   }
   else if (options.bbox) {
     const b = options.bbox.split(',')

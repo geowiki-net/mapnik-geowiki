@@ -1,5 +1,6 @@
 import fs from 'fs'
 import async from 'async'
+import assert from 'assert'
 import mapnikGeowiki from '../src/app.js'
 import test from './src/test.js'
 
@@ -22,6 +23,23 @@ describe('Prepare', function () {
       if (!list.length) { return done() }
 
       async.each(list, (item, done) => fs.unlink('test/generated/' + item, done), done)
+    })
+  })
+})
+
+describe('Parameter handling', function () {
+  it('center requires zoom', function (done) {
+    this.timeout(20000)
+    mapnikGeowiki({
+      size: '100x100',
+      center: '48.19988,16.33743',
+      style: 'test/buildings.yaml',
+      source: 'test/data.osm.bz2',
+      output: 'test/generated/p1.svg',
+    }, function (err, result) {
+      if (!err) { done('Should generate error') }
+      assert.equal(err.message, 'Parameter --center requires zoom level')
+      done()
     })
   })
 })
