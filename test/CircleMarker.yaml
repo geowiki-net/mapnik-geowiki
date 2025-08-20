@@ -1,0 +1,6 @@
+query: nwr[natural=tree]
+feature:
+  style:
+    nodeFeature: CircleMarker
+    radius: 3
+    width: 1
