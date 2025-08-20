@@ -2,11 +2,6 @@ const fs = require('fs')
 const path = require('path')
 const yaml = require('js-yaml')
 const async = require('async')
-const child_process = require('child_process')
-
-const turf = {
-  buffer: require('@turf/buffer').default
-}
 
 const OverpassFrontend = require('overpass-frontend')
 const GeowikiLayer = require('geowiki-layer')
@@ -16,6 +11,8 @@ const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
 const Layer = require('./Layer')
 const calcBBoxZoom = require('./calcBBoxZoom')
+const render2GeoJSON = require('./render2GeoJSON')
+const renderMapnik = require('./renderMapnik')
 require('./debug')
 
 require('../modules.js')
@@ -80,93 +77,15 @@ function mapnikGeowiki (options, callback) {
         console.log('loaded')
       })
     }, (err, result) => {
-      const features = []
-
-      Object.values(result)
-        .flat()
-        .forEach(item => {
-          const geojson = item.object.GeoJSON()
-
-          item.data.styles.forEach(style => {
-            let properties = style === 'default' ? item.data.style : item.data['style:' + style]
-            let geometry = geojson.geometry
-
-            if (properties.geometry) {
-              try {
-                geometry = JSON.parse(properties.geometry)
-              }
-              catch (e) {
-                console.error("Can't parse geometry: \"" + properties.geometry + "\"")
-                return
-              }
-            }
-
-            if (!properties || !geometry) {
-              return
-            }
-
-            if (geometry.type === 'Point') {
-              let radius = parseFloat(properties.radius ?? 10)
-              switch (properties.nodeFeature ?? 'CircleMarker') {
-                case 'CircleMarker':
-                  radius = radius * metersPerPixel / 1000
-                  /* fallthrough */
-                case 'Circle':
-                  geometry = turf.buffer(geometry, radius, {unit: 'meters'}).geometry
-              }
-            }
-
-            features.push({
-              type: 'Feature',
-              geometry,
-              properties
-            })
-          })
-        })
-
-      features
-        .sort((a, b) => {
-          return (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0)
-        })
-
-      fs.writeFileSync('data.geojson', JSON.stringify({
-        type: 'FeatureCollection',
-        features
-      }))
+      render2GeoJSON(result)
 
       if (cacheEnabled) {
         fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
       }
 
-      render()
+      renderMapnik(options, callback)
     })
   })
-
-  function render () {
-    let param = []
-
-    if ('bbox' in options) {
-      const bounds = new BoundingBox(options.bbox)
-      param = param.concat(['-b', bounds.minlon, bounds.minlat, bounds.maxlon, bounds.maxlat])
-    }
-
-    if ('zoom' in options) {
-      param.push('-z')
-      param.push(options.zoom)
-    }
-
-    param.push(options.id + '.xml')
-    param.push(options.output)
-
-    const p = child_process.spawn('nik4', param)
-
-    p.stdout.on('data', data => console.log(data.toString()))
-    p.stderr.on('data', data => console.error(data.toString()))
-    p.on('close', code => {
-      console.log('closed with code ' + code)
-      callback(code)
-    })
-  }
 }
 
 module.exports = mapnikGeowiki
