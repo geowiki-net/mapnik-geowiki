@@ -7,7 +7,7 @@ const twigRender = require('./twigRender')
 const mergeStyleFieldValues = require('./mergeStyleFieldValues')
 const Layer = require('./Layer')
 
-const repoPath = __filename.split('/').slice(0, -2).join('/') + '/'
+const repoPath = __filename.split('/').slice(0, -2).join('/') + '/templates/'
 const template = fs.readFileSync(repoPath + 'template.xml').toString()
 const templateLayer = fs.readFileSync(repoPath + 'template-styles-layers.xml').toString()
 
