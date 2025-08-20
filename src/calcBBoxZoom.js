@@ -1,5 +1,6 @@
 const { SphericalMercator } = require('@mapbox/sphericalmercator')
 const merc = new SphericalMercator()
+const optimalZoom = require('./optimalZoom')
 
 module.exports = function calcBBoxZoom (options) {
   if (options.center && options.bbox) {
@@ -55,31 +56,8 @@ module.exports = function calcBBoxZoom (options) {
   }
 
   if (!options.zoom) {
-    options.zoom = optimalZoom(options.bbox, options.size)
+    options.zoom = optimalZoom(options)
     console.log('optimal zoom', options.zoom)
-  }
-
-  function optimalZoom (bbox, sizePixels) {
-    let scale = 1
-    let zoom = 1
-    const precision = 0.1
-
-    while (true) {
-      const bottomLeft = merc.px([ options.bbox.minlon, options.bbox.minlat ], zoom)
-      const upperRight = merc.px([ options.bbox.maxlon, options.bbox.maxlat ], zoom)
-      const size = [ upperRight[0] - bottomLeft[0], bottomLeft[1] - upperRight[1] ]
-
-      if (size[0] < sizePixels[0] - precision && size[1] < sizePixels[1] - precision) {
-        zoom += scale
-      }
-      else if (size[0] > sizePixels[0] || size[1] > sizePixels[1]) {
-        zoom -= scale
-        scale /= 2
-      }
-      else {
-        return zoom
-      }
-    }
   }
 
   const bottomLeft = merc.px([ options.bbox.minlon, options.bbox.minlat ], options.zoom)
