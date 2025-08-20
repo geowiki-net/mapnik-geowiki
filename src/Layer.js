@@ -54,54 +54,6 @@ module.exports = class Layer {
     ))
   }
 
-  compileQueries () {
-    if (typeof this.layer.query === 'string') {
-      return {
-        0: compileQuery(this.layer.query, this.options)
-      }
-    } else {
-      return Object.fromEntries(
-        Object.entries(this.layer.query)
-          .map(([z, query]) => [z, compileQuery(query, this.options)])
-      )
-    }
-  }
-
-  getFeatureStyleFieldValues (feature) {
-    const fieldValues = {}
-
-    Object.keys(feature)
-      .filter(styleId => styleId === 'style' || styleId.match(/^style:/))
-      .forEach(styleId => {
-        const style = feature[styleId]
-
-        Object.entries(style).forEach(([k, v]) => {
-          const fConfig = fieldConfig[k] ?? {}
-
-          if (!(k in fieldValues)) {
-            fieldValues[k] = []
-          }
-
-          let value = typeof v === 'string' && v.includes('{') ? undefined : v
-          if (fConfig.valueMapping) {
-            value = value in fConfig.valueMapping ? fConfig.valueMapping[value] : value
-          }
-
-          if (!fieldValues[k].includes(value)) {
-            fieldValues[k].push(value)
-          }
-        })
-      })
-
-    return fieldValues
-  }
-
-  getStyleFieldValues () {
-    return mergeStyleFieldValues(this.featureDescriptors().map(featureId =>
-      this.getFeatureStyleFieldValues(this.layer[featureId])
-    ))
-  }
-
   getFeatureStyleFieldValues (feature) {
     const fieldValues = {}
 
