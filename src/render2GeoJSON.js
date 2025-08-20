@@ -3,8 +3,12 @@ const turf = {
   buffer: require('@turf/buffer').default
 }
 
-module.exports = function render2GeoJSON (list) {
+const BoundingBox = require('boundingbox')
+
+module.exports = function render2GeoJSON (list, options) {
   const features = []
+
+  const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
 
   Object.values(list)
     .flat()

@@ -5,7 +5,6 @@ const async = require('async')
 
 const OverpassFrontend = require('overpass-frontend')
 const GeowikiLayer = require('geowiki-layer')
-const BoundingBox = require('boundingbox')
 
 const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
@@ -47,8 +46,6 @@ function mapnikGeowiki (options, callback) {
     return callback(e)
   }
 
-  const metersPerPixel = 40075016.686 * Math.abs(Math.cos(new BoundingBox(options.bbox).getCenter().lat / 180 * Math.PI)) / Math.pow(2, options.zoom + 8)
-
   loadStyleFile(options, (err, data) => {
     if (err) {
       return console.error(err)
@@ -77,7 +74,7 @@ function mapnikGeowiki (options, callback) {
         console.log('loaded')
       })
     }, (err, result) => {
-      render2GeoJSON(result)
+      render2GeoJSON(result, options)
 
       if (cacheEnabled) {
         fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
