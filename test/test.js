@@ -35,7 +35,7 @@ describe('Parameter handling', function () {
       center: '48.19988,16.33743',
       style: 'test/buildings.yaml',
       source: 'test/data.osm.bz2',
-      output: 'test/generated/p1.svg',
+      output: 'test/generated/p1.png',
     }, function (err, result) {
       if (!err) { done('Should generate error') }
       assert.equal(err.message, 'Parameter --center requires zoom level')
@@ -52,10 +52,10 @@ describe('Render from parameters', function () {
       bbox: '48.19878,16.33585,48.19988,16.33743',
       style: 'test/buildings.yaml',
       source: 'test/data.osm.bz2',
-      output: 'test/generated/1.svg',
+      output: 'test/generated/1.png',
     }, function (err, result) {
       if (err) { return done(err) }
-      test('1.svg', done)
+      test('1.png', done)
     })
   })
 
@@ -67,10 +67,10 @@ describe('Render from parameters', function () {
       zoom: 16,
       style: 'test/buildings.yaml',
       source: 'test/data.osm.bz2',
-      output: 'test/generated/2.svg',
+      output: 'test/generated/2.png',
     }, function (err, result) {
       if (err) { return done(err) }
-      test('2.svg', done)
+      test('2.png', done)
     })
   })
 
@@ -81,10 +81,10 @@ describe('Render from parameters', function () {
       bbox: '48.19878,16.33585,48.19988,16.33743',
       style: 'test/CircleMarker.yaml',
       source: 'test/data.osm.bz2',
-      output: 'test/generated/3.svg',
+      output: 'test/generated/3.png',
     }, function (err, result) {
       if (err) { return done(err) }
-      test('3.svg', done)
+      test('3.png', done)
     })
   })
 
