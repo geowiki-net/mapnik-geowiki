@@ -58,6 +58,7 @@ function mapnikGeowiki (options, callback) {
     fs.writeFileSync(filename, stylesheet)
 
     async.mapValues(data.layers, (layerOptions, i, done) => {
+      console.log('start ' + i)
       const _layer = new Layer(i, layerOptions)
       _layer.layer.overpassFrontend = overpassFrontend
       const layer = new GeowikiLayer(_layer.layer)
@@ -70,10 +71,13 @@ function mapnikGeowiki (options, callback) {
         bounds: options.bbox,
         zoom: options.zoom
       }, (err) => {
-        done(null, layer.features())
-        console.log('loaded')
+        const features = layer.features()
+        console.log('loaded ' + i, features.length)
+
+        done(null, features)
       })
     }, (err, result) => {
+      console.log('final')
       render2GeoJSON(result, options)
 
       if (cacheEnabled) {
