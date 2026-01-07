@@ -74,6 +74,10 @@ function mapnikGeowiki (options, callback) {
         const features = layer.features()
         console.log('loaded ' + i, features.length)
 
+        if (cacheEnabled) {
+          fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
+        }
+
         done(null, features)
       })
     }, (err, result) => {
