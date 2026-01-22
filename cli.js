@@ -71,7 +71,14 @@ parser.add_argument('--cache-file', {
   default: 'data.cache',
 })
 
+parser.add_argument('--parameters', {
+  help: 'Additional parameters as JSON object which can be evaluated in twig templates by using "{{ parameters. }}".',
+  default: 'null',
+})
+
 const options = parser.parse_args()
+
+options.parameters = JSON.parse(options.parameters)
 
 const overpassFrontend = new OverpassFrontend(options.source)
 
@@ -215,6 +222,11 @@ loadStyleFile(options, (err, data) => {
     const _layer = new Layer(i, layerOptions)
     _layer.layer.overpassFrontend = overpassFrontend
     const layer = new GeowikiLayer(_layer.layer)
+
+    layer.on('twigData', (ob, feature, twigData) => {
+      twigData.parameters = options.parameters
+    })
+
     layer.moveTo({
       bounds: options.bbox,
       zoom: options.zoom
