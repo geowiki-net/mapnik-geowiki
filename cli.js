@@ -95,7 +95,11 @@ if (!options.id) {
   options.id = fileinfo.name
 }
 
-if (options.center) {
+if (options.center && options.bbox) {
+  console.log("Specify either center or bounding box.")
+  process.exit(1)
+}
+else if (options.center) {
   const b = options.center.split(',')
   options.bbox = {
     minlat: parseFloat(b[0]),
@@ -127,8 +131,18 @@ if (options.margin) {
   options.margin = [ 0, 0 ]
 }
 
+if (!options.bbox && !options.center) {
+  console.log("Specify either bounding box or center.")
+  process.exit(1)
+}
+
 if (options.zoom) {
   options.zoom = parseFloat(options.zoom)
+
+  if (options.center && !options.size) {
+    console.log("Specify image size.")
+    process.exit(1)
+  }
 } else {
   if (!options.size) {
     console.log("Specify either output size or zoom level.")
