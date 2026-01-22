@@ -47,6 +47,8 @@ layers:
       color: '#000000'
       dashArray: |
         {{ tags.highway in ['cycleway', 'footway', 'service'] ? '5,5' : '' }}
+      text: '{{ tags.name }}'
+      textOffset: 5
 
 - query: nwr[building]
   feature:
