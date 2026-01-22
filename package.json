@@ -36,6 +36,7 @@
   },
   "homepage": "https://github.com/geowiki-net/mapnik-geowiki#readme",
   "devDependencies": {
+    "require-self": "^0.2.3",
     "standard": "^17.1.0"
   }
 }
