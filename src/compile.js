@@ -7,8 +7,9 @@ const zoomToScale = require('./zoomToScale')
 const twigRender = require('./twigRender')
 const Layer = require('./Layer')
 
-const template = fs.readFileSync('template.xml').toString()
-const templateLayer = fs.readFileSync('template-styles-layers.xml').toString()
+const repoPath = __filename.split('/').slice(0, -2).join('/') + '/'
+const template = fs.readFileSync(repoPath + 'template.xml').toString()
+const templateLayer = fs.readFileSync(repoPath + 'template-styles-layers.xml').toString()
 
 module.exports = function compile (data, options) {
   const layers = data.layers.map((l, i) => new Layer(i, l, data, options))
