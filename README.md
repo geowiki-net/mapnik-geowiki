@@ -18,8 +18,9 @@ Notice: In Ubuntu 22.04, libmapnik3.1 has been compiled without support for proj
 
 Render the given area at the given zoom level of the data source file.osm (or the default Overpass API server if omitted) to the file image.pdf (image.svg if omitted).
 
-The creates the following temporary files:
-* `data.geojson` The prepared data for Mapnik
+This creates the following temporary files:
+* `data.geojson`: The prepared data for Mapnik
+* `example.xml`: The compiled stylesheet for Mapnik
 
 ## DOCUMENTATION
 Stylesheet use the [Geowiki format](https://github.com/geowiki-net/geowiki-spec), which is based on YAML with TwigJS templates. Not all parameters are supported.
