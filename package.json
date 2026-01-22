@@ -41,5 +41,11 @@
   "devDependencies": {
     "mocha": "^11.7.1",
     "standard": "^17.1.0"
-  }
+  },
+  "files": [
+    "cli.js",
+    "src",
+    "template.xml",
+    "template-styles-layers.xml"
+  ]
 }
