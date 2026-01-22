@@ -22,6 +22,12 @@ This creates the following temporary files:
 * `data.geojson`: The prepared data for Mapnik
 * `example.xml`: The compiled stylesheet for Mapnik
 
+One of the following parameter combinations to define the area has to be used:
+* `-z18 --bbox minlat,minlon,maxlat,maxlon`: render the bounding box at zoom level 18, the image will be cropped at the bouding box.
+* `--size 100x100 --bbox minlat,minlon,maxlat,maxlon`: the zoom level will automatically be calculated, so that the bounding box will fit into the image. The bouding box is extended to match the image size.
+* `-z18 --size 100x100 --center lat,lon`: A bounding box around center will be calculated to match the image size at the specified zoom level.
+* `-z18 --size 100x100 --bbox minlat,minlon,maxlat,maxlon`: the bounding box will be extended or cropped to match the image size at the specified zoom level.
+
 ## DOCUMENTATION
 Stylesheet use the [Geowiki format](https://github.com/geowiki-net/geowiki-spec), which is based on YAML with TwigJS templates. Not all parameters are supported.
 ### Example
