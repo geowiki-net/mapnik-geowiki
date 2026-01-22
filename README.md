@@ -13,14 +13,7 @@ Notice: In Ubuntu 22.04, libmapnik3.1 has been compiled without support for proj
 
 ## USAGE
 ```
-./cli.js stylesheet.yaml
-```
-
-This creates a file:
-* `stylesheet.xml`, the Mapnik stylesheet
-
-```
-./prepare_data.js -z14 --bbox 48.1,16.2,48.3,16.4 [--source file.osm] [--output image.pdf] stylesheet.yaml
+./cli.js -z18 --bbox 48.195,16.369,48.197,16.373 [--source file.osm] [--output image.pdf] stylesheet.yaml
 ```
 
 Render the given area at the given zoom level of the data source file.osm (or the default Overpass API server if omitted) to the file image.pdf (image.svg if omitted).
