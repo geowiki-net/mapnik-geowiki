@@ -22,7 +22,7 @@ The creates the following temporary files:
 * `data.geojson` The prepared data for Mapnik
 
 ## DOCUMENTATION
-Stylesheet use the Geowiki format, which is based on YAML with TwigJS templates.
+Stylesheet use the [Geowiki format](https://github.com/geowiki-net/geowiki-spec), which is based on YAML with TwigJS templates. Not all parameters are supported.
 ### Example
 ```yaml
 background: '#ffffff'
@@ -55,11 +55,13 @@ layers:
 
 ### TwigJS
 #### TwigJS templates
+If a value of a stylesheet is a string (notice the '|' symbol after the key), it may contain a function written in [TwigJS](https://github.com/twigjs/twig.js) (see [Twig Syntax](https://en.wikipedia.org/wiki/Twig_(template_engine)#Syntax) for an introduction.
+
 When rendering map features, the following properties are available:
 * `id` (the id of the object is always available, prefixed 'n' for nodes, 'w' for ways and 'r' for relations; e.g. 'n1234')
 * `osm_id` (the numerical id of the object)
 * `type` ('node', 'way' or 'relation')
-* `tags.*` (all tags are available with the prefix tags., e.g. tags.amenity)
+* `tags.*` (all tags are available with the prefix tags., e.g. `tags.amenity`)
 * `map.metersPerPixel` (Scale denominator at the current zoom level)
 * `map.zoom` (Current zoom level)
 * `const.*` (Values from the 'const' option)
