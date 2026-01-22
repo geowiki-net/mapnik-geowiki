@@ -38,20 +38,24 @@ layers:
 - query: way[highway]
   feature:
     style:
-      width: 5
+      width: |
+        {% if tags.highway in ['primary', 'secondary', 'tertiary'] %}5
+        {% elseif tags.highway in ['cycleway', 'footway', 'service'] %}1.5
+        {% else %}3
+        {% endif %}
       fill: false
-      color: '#ff0000'
-      dashArray: |-
-        {{ tags.highway in ['primary', 'secondary', 'tertiary'] ? '' : '5,5' }}
+      color: '#000000'
+      dashArray: |
+        {{ tags.highway in ['cycleway', 'footway', 'service'] ? '5,5' : '' }}
 
-- query: nwr[natural=water]
+- query: nwr[building]
   feature:
     style:
+      width: 0.5
+      color: '#7f7f7f'
       fill: true
-      fillColor: '#afafff'
-      width: 1
-      color: '#0000ff'
-      zIndex: -1
+      fillOpacity: 1
+      fillColor: '#afafaf'
 ```
 
 ### TwigJS
