@@ -30,7 +30,7 @@
       "face-name": "textFontName",
       "size": "textFontSize",
       "dx": "textMoveX",
-      "dy": "textMoveY",
+      "dy": "textOffset",
       "placement": "textPlacement",
       "opacity": "textOpacity",
       "fill": "textColor",
