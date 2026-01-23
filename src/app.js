@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const yaml = require('js-yaml')
 const async = require('async')
 
 const OverpassFrontend = require('overpass-frontend')
@@ -41,8 +40,7 @@ function mapnikGeowiki (options, callback) {
 
   try {
     options = calcBBoxZoom(options)
-  }
-  catch (e) {
+  } catch (e) {
     return callback(e)
   }
 
@@ -71,22 +69,26 @@ function mapnikGeowiki (options, callback) {
         bounds: options.bbox,
         zoom: options.zoom
       }, (err) => {
-        const features = layer.features()
-        console.log('loaded ' + i, features.length)
-
         if (cacheEnabled) {
           fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
         }
 
+        if (err) { return callback(err) }
+
+        const features = layer.features()
+        console.log('loaded ' + i, features.length)
+
         done(null, features)
       })
     }, (err, result) => {
-      console.log('final')
-      render2GeoJSON(result, options)
-
       if (cacheEnabled) {
         fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
       }
+
+      console.log('final')
+      if (err) { return callback(err) }
+
+      render2GeoJSON(result, options)
 
       renderMapnik(options, callback)
     })

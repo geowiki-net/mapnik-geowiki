@@ -36,11 +36,11 @@ parser.add_argument('--center', '-c', {
 })
 
 parser.add_argument('--size', {
-  help: 'Render map in this final output size (e.g. 1920x1080) (Attention: SVG is using pt, so output seems 25% larger)',
+  help: 'Render map in this final output size (e.g. 1920x1080) (Attention: SVG is using pt, so output seems 25% larger)'
 })
 
 parser.add_argument('--margin', {
-  help: 'Increase the final output size by n pixels to either side by increasing the bounding box accordingly (e.g. "200" resp. "200x300").',
+  help: 'Increase the final output size by n pixels to either side by increasing the bounding box accordingly (e.g. "200" resp. "200x300").'
 })
 
 parser.add_argument('--zoom', '-z', {
@@ -54,12 +54,12 @@ parser.add_argument('--output', '-o', {
 
 parser.add_argument('--cache-file', {
   help: 'Dump and restore OSM object cache from/to this file. Only active for remote servers. For disabling, set to empty file name.',
-  default: 'data.cache',
+  default: 'data.cache'
 })
 
 parser.add_argument('--parameters', {
   help: 'Additional parameters as JSON object which can be evaluated in twig templates by using "{{ parameters. }}".',
-  default: 'null',
+  default: 'null'
 })
 
 const options = parser.parse_args()

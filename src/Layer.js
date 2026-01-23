@@ -1,5 +1,3 @@
-const twigCompile = require('./twigCompile')
-const compileQuery = require('./compileQuery')
 const mergeStyleFieldValues = require('./mergeStyleFieldValues')
 
 const defaultStyle = require('./defaultStyle.json')
@@ -30,7 +28,7 @@ module.exports = class Layer {
         this.layer[featureId].style = {}
       }
 
-      for (let k in this.layer[featureId]) {
+      for (const k in this.layer[featureId]) {
         if (k === 'style' || k.match(/^style:/)) {
           this.layer[featureId][k] = { ...defaultStyle, ...this.layer.feature[k] }
         }

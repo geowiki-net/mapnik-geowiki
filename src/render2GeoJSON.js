@@ -16,15 +16,14 @@ module.exports = function render2GeoJSON (list, options) {
       const geojson = item.object.GeoJSON()
 
       item.data.styles.forEach(style => {
-        let properties = style === 'default' ? item.data.style : item.data['style:' + style]
+        const properties = style === 'default' ? item.data.style : item.data['style:' + style]
         let geometry = geojson.geometry
 
         if (properties.geometry) {
           try {
             geometry = JSON.parse(properties.geometry)
-          }
-          catch (e) {
-            console.error("Can't parse geometry: \"" + properties.geometry + "\"")
+          } catch (e) {
+            console.error("Can't parse geometry: \"" + properties.geometry + '"')
             return
           }
         }
@@ -40,7 +39,7 @@ module.exports = function render2GeoJSON (list, options) {
               radius = radius * metersPerPixel / 1000
               /* fallthrough */
             case 'Circle':
-              geometry = turf.buffer(geometry, radius, {unit: 'meters'}).geometry
+              geometry = turf.buffer(geometry, radius, { unit: 'meters' }).geometry
           }
         }
 

@@ -93,7 +93,6 @@ function getRuleFieldValues (conf, styleFieldValues) {
       }
     }
 
-
     if (fConfig.otherValues) {
       ruleFieldValues[field] = ruleFieldValues[field].concat(styleFieldValues[field])
 

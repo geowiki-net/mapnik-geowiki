@@ -1,4 +1,4 @@
-const child_process = require('child_process')
+const childProcess = require('child_process')
 
 const BoundingBox = require('boundingbox')
 
@@ -18,7 +18,7 @@ module.exports = function renderMapnik (options, callback) {
   param.push(options.id + '.xml')
   param.push(options.output)
 
-  const p = child_process.spawn('nik4', param)
+  const p = childProcess.spawn('nik4', param)
 
   p.stdout.on('data', data => console.log(data.toString()))
   p.stderr.on('data', data => console.error(data.toString()))
