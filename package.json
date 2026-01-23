@@ -1,5 +1,5 @@
 {
-  "name": "mapnik-geowiki",
+  "name": "@geowiki-net/mapnik-geowiki",
   "version": "0.0.0",
   "description": "Renders a Geowiki map with Mapnik",
   "main": "src/app.js",
@@ -47,5 +47,8 @@
     "src",
     "template.xml",
     "template-styles-layers.xml"
-  ]
+  ],
+  "directories": {
+    "test": "test"
+  }
 }
