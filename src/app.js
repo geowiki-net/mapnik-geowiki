@@ -2,7 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const async = require('async')
 
-const OverpassFrontend = require('overpass-frontend')
+const OverpassFrontend = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('geowiki-layer')
 
 const loadStyleFile = require('./loadStyleFile')

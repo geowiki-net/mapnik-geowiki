@@ -7,6 +7,7 @@
     "mapnik-geowiki": "cli.js"
   },
   "dependencies": {
+    "@geowiki-net/geowiki-api": "github:geowiki-net/geowiki-api#devel-4",
     "@mapbox/sphericalmercator": "^2.0.1",
     "@turf/buffer": "^7.0.0",
     "argparse": "^2.0.1",
@@ -15,7 +16,6 @@
     "geowiki-module-merge-line-strings": "github:geowiki-net/geowiki-module-merge-line-strings",
     "geowiki-module-turf": "github:geowiki-net/geowiki-module-turf",
     "js-yaml": "^4.1.0",
-    "overpass-frontend": "github:plepe/overpass-frontend#sets-cacheDumpRestore",
     "pg-hstore": "^2.3.4",
     "twig": "^1.16.0"
   },
