@@ -52,11 +52,6 @@ parser.add_argument('--output', '-o', {
   default: 'image.svg'
 })
 
-parser.add_argument('--cache-file', {
-  help: 'Dump and restore OSM object cache from/to this file. Only active for remote servers. For disabling, set to empty file name.',
-  default: 'data.cache'
-})
-
 parser.add_argument('--parameters', {
   help: 'Additional parameters as JSON object which can be evaluated in twig templates by using "{{ parameters. }}".',
   default: 'null'

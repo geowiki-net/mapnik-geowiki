@@ -18,21 +18,6 @@ require('../modules.js')
 function mapnikGeowiki (options, callback) {
   const overpassFrontend = new OverpassFrontend(options.source)
 
-  let cacheEnabled = options.cache_file !== ''
-  if (!options.source.match(/^(https?:)?\/\//)) {
-    cacheEnabled = false
-  }
-  if (!overpassFrontend.cacheDump) {
-    cacheEnabled = false
-  }
-  console.log('cache enabled', cacheEnabled)
-
-  if (cacheEnabled) {
-    if (fs.existsSync(options.cache_file)) {
-      overpassFrontend.cacheRestore(JSON.parse(fs.readFileSync(options.cache_file)))
-    }
-  }
-
   if (!options.id) {
     const fileinfo = path.parse(options.style)
     options.id = fileinfo.name
@@ -69,10 +54,6 @@ function mapnikGeowiki (options, callback) {
         bounds: options.bbox,
         zoom: options.zoom
       }, (err) => {
-        if (cacheEnabled) {
-          fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
-        }
-
         if (err) { return callback(err) }
 
         const features = layer.features()
@@ -81,10 +62,6 @@ function mapnikGeowiki (options, callback) {
         done(null, features)
       })
     }, (err, result) => {
-      if (cacheEnabled) {
-        fs.writeFileSync(options.cache_file, JSON.stringify(overpassFrontend.cacheDump()))
-      }
-
       console.log('final')
       if (err) { return callback(err) }
 
