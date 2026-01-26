@@ -46,9 +46,9 @@
   },
   "files": [
     "cli.js",
+    "modules.js",
     "src",
-    "template.xml",
-    "template-styles-layers.xml"
+    "templates"
   ],
   "directories": {
     "test": "test"
