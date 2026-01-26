@@ -7,7 +7,7 @@
     "mapnik-geowiki": "cli.js"
   },
   "dependencies": {
-    "@geowiki-net/geowiki-api": "github:geowiki-net/geowiki-api#devel-4",
+    "@geowiki-net/geowiki-api": "^4.0.0-beta.0",
     "@mapbox/sphericalmercator": "^2.0.1",
     "@turf/buffer": "^7.0.0",
     "argparse": "^2.0.1",
