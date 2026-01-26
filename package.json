@@ -17,12 +17,10 @@
     "geowiki-module-turf": "github:geowiki-net/geowiki-module-turf",
     "js-yaml": "^4.1.0",
     "pg-hstore": "^2.3.4",
-    "require-self": "^0.2.3",
     "twig": "^1.16.0"
   },
   "scripts": {
     "lint": "standard --fix cli.js src/*.js",
-    "prepare": "require-self",
     "test": "mocha --bail"
   },
   "repository": {
