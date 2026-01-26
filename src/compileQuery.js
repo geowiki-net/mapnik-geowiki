@@ -1,6 +1,6 @@
 const OverpassFrontend = require('@geowiki-net/geowiki-api')
 const filter2mapnik = require('./filter2mapnik')
-const compileTemplate = require('geowiki-layer/src/compileTemplate.js')
+const compileTemplate = require('@geowiki-net/geowiki-layer/src/compileTemplate.js')
 const twig = require('twig')
 
 module.exports = function (query, options) {

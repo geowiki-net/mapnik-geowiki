@@ -3,7 +3,7 @@ const path = require('path')
 const async = require('async')
 
 const OverpassFrontend = require('@geowiki-net/geowiki-api')
-const GeowikiLayer = require('geowiki-layer')
+const GeowikiLayer = require('@geowiki-net/geowiki-layer')
 
 const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
