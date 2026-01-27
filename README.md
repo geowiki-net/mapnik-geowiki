@@ -1,22 +1,24 @@
 # mapnik-geowiki
-Render a [geowiki](https://geowiki.net) stylesheet with a [Mapnik](https://mapnik.org). Data is being loaded either from an Overpass API server or a .osm/.osm.json/.osm.bz2 file.
+Render a [geowiki](https://geowiki.net) stylesheet with [Mapnik](https://mapnik.org). Data is being loaded either from an Overpass API server or a .osm/.osm.json/.osm.bz2 file.
 
 ## INSTALLATION
+tested with Ubuntu 25.10:
+
 ```
-apt install nik4 # this installs all mapnik dependencies
-git clone https://github.com/geowiki-net/mapnik-geowiki
-cd mapnik-geowiki
-npm install
+sudo apt install nik4 nodejs npm # this installs all mapnik dependencies
+npm config set prefix /home/username
+npm install -g @geowiki-net/mapnik-geowiki
+export PATH=$PATH:/home/username/bin # if this has not been added automatically.
 ```
 
 Notice: In Ubuntu 22.04, libmapnik3.1 has been compiled without support for proj. Therefore you either have to compile it yourself, or use an older or newer Ubuntu version.
 
 ## USAGE
 ```
-./cli.js -z18 --bbox 48.195,16.369,48.197,16.373 [--source file.osm] [--output image.pdf] stylesheet.yaml
+mapnik-geowiki -z18 --bbox 48.195,16.369,48.197,16.373 [--source file.osm] [--output image.pdf] --style stylesheet.yaml
 ```
 
-Render the given area at the given zoom level of the data source file.osm (or the default Overpass API server if omitted) to the file image.pdf (image.svg if omitted).
+Render the given area at the given zoom level of the data source file.osm (or the default Overpass API server if omitted) to the file image.pdf (image.svg if omitted) using the style of stylesheet.yaml. See below for an example stylesheet.
 
 This creates the following temporary files:
 * `data.geojson`: The prepared data for Mapnik
@@ -27,6 +29,16 @@ One of the following parameter combinations to define the area has to be used:
 * `--size 100x100 --bbox minlat,minlon,maxlat,maxlon`: the zoom level will automatically be calculated, so that the bounding box will fit into the image. The bouding box is extended to match the image size.
 * `-z18 --size 100x100 --center lat,lon`: A bounding box around center will be calculated to match the image size at the specified zoom level.
 * `-z18 --size 100x100 --bbox minlat,minlon,maxlat,maxlon`: the bounding box will be extended or cropped to match the image size at the specified zoom level.
+
+## DEVELOPMENT
+```
+apt install nik4 # this installs all mapnik dependencies
+git clone https://github.com/geowiki-net/mapnik-geowiki
+cd mapnik-geowiki
+npm install
+```
+
+Use `cli.js` instead of the `mapnik-geowiki` command.
 
 ## DOCUMENTATION
 Stylesheet use the [Geowiki format](https://github.com/geowiki-net/geowiki-spec), which is based on YAML with TwigJS templates. Not all parameters are supported.
