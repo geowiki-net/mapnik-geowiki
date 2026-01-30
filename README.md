@@ -81,9 +81,20 @@ When rendering map features, the following properties are available:
 * `osm_id` (the numerical id of the object)
 * `type` ('node', 'way' or 'relation')
 * `tags.*` (all tags are available with the prefix tags., e.g. `tags.amenity`)
-* `map.metersPerPixel` (Scale denominator at the current zoom level)
+* `meta.*` (meta data of the object, e.g. user, changeset, ...)
+* `is_area` (if the way is closed or the relation is a multipolygon)
+* `members[]` (an array of all members)
+  * `id`, `osm_id`, `type`, `tags`, `meta` (like for the map feature itself)
+  * `sequence` (the nth member)
+  * `role` (of the member if part of a relation)
+  * `connectedPrev`, `connectedNext` (if connected to neighbouring ways in a relation)
+  * `dir` (either `forward`, `backward` or null, if connected to neighbouring ways)
+
+These global properties are available:
+* `map.metersPerPixel` (Scale denominator at the center of the current view. If you use `width: {{ 3 / map.metersPerPixel }}` you get a line which is 3m wide.)
 * `map.zoom` (Current zoom level)
-* `const.*` (Values from the 'const' option)
+* `const.*` (Values from the 'const' section of the stylesheet)
+* `parameters` (The value of the `parameters` argument to the command line interface, JSON decoded)
 
 #### TwigJS extra functions and filters
 Currently none.
