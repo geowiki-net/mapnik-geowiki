@@ -4,6 +4,7 @@ const turf = {
 }
 
 const BoundingBox = require('boundingbox')
+const mapnikSymbolizerFunctions = require('./mapnikSymbolizerFunctions.js')
 
 module.exports = function render2GeoJSON (list, options) {
   const features = []
@@ -31,6 +32,10 @@ module.exports = function render2GeoJSON (list, options) {
         if (!properties || !geometry) {
           return
         }
+
+        Object.entries(mapnikSymbolizerFunctions).forEach(([key, def]) => {
+          properties[key] = def.fun(properties)
+        })
 
         if (geometry.type === 'Point') {
           let radius = parseFloat(properties.radius ?? 10)
