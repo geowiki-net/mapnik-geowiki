@@ -23,5 +23,9 @@
   "textFontName": {
     "values": [],
     "otherValues": true
+  },
+  "textRepeat": {
+    "values": [false, true],
+    "otherValues": false
   }
 }

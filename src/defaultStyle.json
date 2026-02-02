@@ -25,7 +25,8 @@
   "textHaloColor": "#ffffff",
   "textHaloCompositingOperation": "",
   "textLetterSpacing": 0,
-  "textRepeatSpacing": "",
+  "textRepeat": false,
+  "textRepeatSpacing": 0,
   "textMoveX": 0,
   "textOffset": 0,
   "textWrapWidth": 0
