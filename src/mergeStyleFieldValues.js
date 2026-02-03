@@ -22,11 +22,11 @@ module.exports = function mergeStyleFieldValues (list) {
 
     let list = [{}]
     def.depend.forEach(k => {
-      let newlist = []
+      const newlist = []
 
       list.forEach(l => {
         result[k].forEach(v => {
-          let copy = JSON.parse(JSON.stringify(l))
+          const copy = JSON.parse(JSON.stringify(l))
           copy[k] = v
           newlist.push(copy)
         })

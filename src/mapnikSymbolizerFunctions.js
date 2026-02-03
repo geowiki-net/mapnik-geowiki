@@ -4,7 +4,7 @@
 */
 module.exports = {
   _spacing: {
-    depend: [ 'textRepeat', 'textRepeatSpacing' ],
+    depend: ['textRepeat', 'textRepeatSpacing'],
     fun: properties => {
       if (properties.textRepeat) {
         return properties.textRepeatSpacing === 0 ? 0.0001 : properties.textRepeatSpacing
