@@ -25,7 +25,7 @@
     "otherValues": true
   },
   "textRepeat": {
-    "values": [false, true],
+    "type": "boolean",
     "otherValues": false
   }
 }
