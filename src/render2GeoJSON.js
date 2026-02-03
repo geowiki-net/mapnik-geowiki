@@ -7,6 +7,7 @@ const BoundingBox = require('boundingbox')
 const fieldConfig = require('./fieldConfig.json')
 const mapnikSymbolizerFunctions = require('./mapnikSymbolizerFunctions.js')
 const isTrue = require('./isTrue')
+const parseLength = require('@geowiki-net/geowiki-layer/src/parseLength.js')
 
 module.exports = function render2GeoJSON (list, options) {
   const features = []
@@ -39,6 +40,12 @@ module.exports = function render2GeoJSON (list, options) {
           switch (def.type) {
             case 'boolean':
               properties[key] = isTrue(properties[key])
+              break
+            case 'length':
+              properties[key] = parseLength(properties[key], metersPerPixel)
+              break
+            case 'array-length':
+              properties[key] = properties[key].split(/,/g).map(v => parseLength(v, metersPerPixel)).join(',')
               break
           }
 
