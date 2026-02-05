@@ -9,6 +9,7 @@
   "dependencies": {
     "@geowiki-net/geowiki-api": "^4.0.0-beta.0",
     "@geowiki-net/geowiki-layer": "^4.0.0-beta.0",
+    "@geowiki-net/geowiki-translations": "github:geowiki-net/geowiki-translations",
     "@geowiki-net/geowiki-twig-functions": "github:geowiki-net/geowiki-twig-functions",
     "@mapbox/sphericalmercator": "^2.0.1",
     "@turf/buffer": "^7.0.0",
@@ -19,13 +20,15 @@
     "geowiki-module-merge-line-strings": "github:geowiki-net/geowiki-module-merge-line-strings",
     "geowiki-module-turf": "github:geowiki-net/geowiki-module-turf",
     "js-yaml": "^4.1.0",
+    "openstreetmap-tag-translations": "github:plepe/openstreetmap-tag-translations",
     "pg-hstore": "^2.3.4",
     "require-self": "^0.2.3",
     "twig": "^1.16.0"
   },
   "scripts": {
     "lint": "standard --fix cli.js src/*.js",
-    "prepare": "require-self",
+    "build-translations": "modulekit-lang-build-dist",
+    "prepare": "require-self && mkdir -p dist && npm run build-translations",
     "test": "mocha --bail"
   },
   "repository": {

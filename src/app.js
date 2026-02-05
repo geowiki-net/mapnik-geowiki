@@ -40,6 +40,8 @@ App.modules = [ ...require('../modules.js') ]
 function mapnikGeowiki (options, callback) {
   const app = new App()
 
+  app.config.lang = options.language
+
   app.initModules(() => _mapnikGeowiki(options, callback))
 }
 
