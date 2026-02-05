@@ -20,6 +20,7 @@
     "geowiki-module-merge-line-strings": "github:geowiki-net/geowiki-module-merge-line-strings",
     "geowiki-module-turf": "github:geowiki-net/geowiki-module-turf",
     "js-yaml": "^4.1.0",
+    "openstreetmap-tag-translations": "github:plepe/openstreetmap-tag-translations",
     "pg-hstore": "^2.3.4",
     "require-self": "^0.2.3",
     "twig": "^1.16.0"
