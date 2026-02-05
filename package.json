@@ -26,7 +26,8 @@
   },
   "scripts": {
     "lint": "standard --fix cli.js src/*.js",
-    "prepare": "require-self",
+    "build-translations": "modulekit-lang-build-dist",
+    "prepare": "require-self && mkdir -p dist && npm run build-translations",
     "test": "mocha --bail"
   },
   "repository": {
