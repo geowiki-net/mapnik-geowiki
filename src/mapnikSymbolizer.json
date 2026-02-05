@@ -32,15 +32,15 @@
       "dx": "textMoveX",
       "dy": "textOffset",
       "placement": "textPlacement",
-      "opacity": "textOpacity",
-      "fill": "textColor",
+      "opacity": "textFillOpacity",
+      "fill": "textFill",
       "horizontal-alignment": "textHorizontalAlign",
       "vertical-alignment": "textVerticalAlign",
       "halo-fill": "textHaloColor",
       "halo-radius": "textHaloRadius",
       "halo-comp-op": "textHaloCompositingOperation",
       "character-spacing": "textLetterSpacing",
-      "spacing": "textRepeatSpacing",
+      "spacing": "_spacing",
       "wrap-width": "textWrapWidth"
     }
   }

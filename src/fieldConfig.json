@@ -5,12 +5,22 @@
   "stroke": {
     "type": "boolean"
   },
+  "width": {
+    "type": "length"
+  },
+  "offset": {
+    "type": "length"
+  },
   "dashArray": {
+    "type": "array-length",
     "valueMapping": {
       "": "none"
     },
     "values": ["none"],
     "otherValues": true
+  },
+  "dashOffset": {
+    "type": "length"
   },
   "lineJoin": {
     "values": ["miter", "round", "bevel"],
@@ -23,5 +33,9 @@
   "textFontName": {
     "values": [],
     "otherValues": true
+  },
+  "textRepeat": {
+    "type": "boolean",
+    "otherValues": false
   }
 }

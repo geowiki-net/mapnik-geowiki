@@ -4,6 +4,10 @@ const turf = {
 }
 
 const BoundingBox = require('boundingbox')
+const fieldConfig = require('./fieldConfig.json')
+const mapnikSymbolizerFunctions = require('./mapnikSymbolizerFunctions.js')
+const isTrue = require('./isTrue')
+const parseLength = require('@geowiki-net/geowiki-layer/src/parseLength.js')
 
 module.exports = function render2GeoJSON (list, options) {
   const features = []
@@ -31,6 +35,31 @@ module.exports = function render2GeoJSON (list, options) {
         if (!properties || !geometry) {
           return
         }
+
+        Object.entries(fieldConfig).forEach(([key, def]) => {
+          switch (def.type) {
+            case 'boolean':
+              properties[key] = isTrue(properties[key])
+              break
+            case 'length':
+              properties[key] = parseLength(properties[key], metersPerPixel)
+              break
+            case 'array-length':
+              properties[key] = properties[key].split(/,/g).map(v => parseLength(v, metersPerPixel)).join(',')
+              break
+          }
+
+          if (def.valueMapping) {
+            const v = properties[key].trim()
+            if (v in def.valueMapping) {
+              properties[key] = def.valueMapping[v]
+            }
+          }
+        })
+
+        Object.entries(mapnikSymbolizerFunctions).forEach(([key, def]) => {
+          properties[key] = def.fun(properties)
+        })
 
         if (geometry.type === 'Point') {
           let radius = parseFloat(properties.radius ?? 10)
