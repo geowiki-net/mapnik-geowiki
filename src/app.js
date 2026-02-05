@@ -1,9 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 const async = require('async')
+const Events = require('events')
 
 const OverpassFrontend = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('@geowiki-net/geowiki-layer')
+const initModules = require('geowiki-lib-modules').default
 
 const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
@@ -13,9 +15,35 @@ const render2GeoJSON = require('./render2GeoJSON')
 const renderMapnik = require('./renderMapnik')
 require('./debug')
 
-require('../modules.js')
+class App extends Events {
+  constructor () {
+    super()
+
+    //this.state = state
+    this.config = {}
+  }
+
+  initModules (callback) {
+    initModules(this, 'appInit', App.modules, (err) => {
+      if (err) {
+        console.error(err.message)
+        process.exit(1)
+      }
+
+      callback()
+    })
+  }
+}
+
+App.modules = [ ...require('../modules.js') ]
 
 function mapnikGeowiki (options, callback) {
+  const app = new App()
+
+  app.initModules(() => _mapnikGeowiki(options, callback))
+}
+
+function _mapnikGeowiki (options, callback) {
   const overpassFrontend = new OverpassFrontend(options.source)
 
   if (!options.id) {
