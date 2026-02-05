@@ -9,10 +9,12 @@
   "dependencies": {
     "@geowiki-net/geowiki-api": "^4.0.0-beta.0",
     "@geowiki-net/geowiki-layer": "^4.0.0-beta.0",
+    "@geowiki-net/geowiki-twig-functions": "github:geowiki-net/geowiki-twig-functions",
     "@mapbox/sphericalmercator": "^2.0.1",
     "@turf/buffer": "^7.0.0",
     "argparse": "^2.0.1",
     "browserify": "^17.0.0",
+    "geowiki-module-color": "github:geowiki-net/geowiki-module-color",
     "geowiki-module-merge-line-strings": "github:geowiki-net/geowiki-module-merge-line-strings",
     "geowiki-module-turf": "github:geowiki-net/geowiki-module-turf",
     "js-yaml": "^4.1.0",
