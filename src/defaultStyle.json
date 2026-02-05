@@ -15,7 +15,7 @@
   "zIndex": 0,
   "compositingOperation": "",
   "textFontName": "DejaVu Sans Oblique",
-  "textPlacement": "line",
+  "textPlacement": "{% if type == 'way' and not is_area %}line{% else %}interior{% endif %}",
   "textHorizontalAlign": "auto",
   "textVerticalAlign": "middle",
   "textFillOpacity": 1,
