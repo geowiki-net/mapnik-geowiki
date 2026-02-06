@@ -19,7 +19,9 @@ class App extends Events {
     super()
 
     //this.state = state
-    this.config = {}
+    this.config = {
+      path: path.resolve(__dirname, '../')
+    }
   }
 
   initModules (callback) {
