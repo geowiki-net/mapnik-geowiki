@@ -13,7 +13,6 @@ const Layer = require('./Layer')
 const calcBBoxZoom = require('./calcBBoxZoom')
 const render2GeoJSON = require('./render2GeoJSON')
 const renderMapnik = require('./renderMapnik')
-require('./debug')
 
 class App extends Events {
   constructor () {
