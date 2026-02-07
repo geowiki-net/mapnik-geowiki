@@ -45,7 +45,7 @@ module.exports = function render2GeoJSON (list, options) {
               properties[key] = parseLength(properties[key], metersPerPixel)
               break
             case 'array-length':
-              properties[key] = properties[key].split(/,/g).map(v => parseLength(v, metersPerPixel)).join(',')
+              properties[key] = properties[key].split(/,/g).map(v => v ? parseLength(v, metersPerPixel) : '').join(',')
               break
           }
 
