@@ -15,6 +15,7 @@ const render2GeoJSON = require('./render2GeoJSON')
 const renderMapnik = require('./renderMapnik')
 
 const baseModules = [
+  require('./tmpDir')
 ]
 
 class App extends Events {

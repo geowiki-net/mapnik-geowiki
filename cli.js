@@ -62,6 +62,12 @@ parser.add_argument('--parameters', {
   default: 'null'
 })
 
+parser.add_argument('--tmp-dir', {
+  help: 'Path, where to store temporary files (default /tmp/mapnik-geowiki-`pid`).',
+  dest: 'tmpDir',
+  default: null
+})
+
 const options = parser.parse_args()
 
 options.parameters = JSON.parse(options.parameters)
