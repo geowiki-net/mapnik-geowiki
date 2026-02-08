@@ -14,6 +14,9 @@ const calcBBoxZoom = require('./calcBBoxZoom')
 const render2GeoJSON = require('./render2GeoJSON')
 const renderMapnik = require('./renderMapnik')
 
+const baseModules = [
+]
+
 class App extends Events {
   constructor (options) {
     super()
@@ -35,7 +38,7 @@ class App extends Events {
   }
 }
 
-App.modules = [...require('../modules.js')]
+App.modules = [ ...baseModules, ...require('../modules.js')]
 
 function mapnikGeowiki (options, callback) {
   const app = new App(options)
