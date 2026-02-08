@@ -20,7 +20,7 @@ mapnik-geowiki -z18 --bbox 48.195,16.369,48.197,16.373 [--source file.osm] [--ou
 
 Render the given area at the given zoom level of the data source file.osm (or the default Overpass API server if omitted) to the file image.pdf (image.svg if omitted) using the style of stylesheet.yaml. See below for an example stylesheet.
 
-This creates the following temporary files:
+This creates a directory in your tmp folder with the following files:
 * `data.geojson`: The prepared data for Mapnik
 * `example.xml`: The compiled stylesheet for Mapnik
 

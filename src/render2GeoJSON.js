@@ -85,7 +85,7 @@ module.exports = function render2GeoJSON (list, options) {
       return (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0)
     })
 
-  fs.writeFileSync('data.geojson', JSON.stringify({
+  fs.writeFileSync(options.tmpDir + '/data.geojson', JSON.stringify({
     type: 'FeatureCollection',
     features
   }))

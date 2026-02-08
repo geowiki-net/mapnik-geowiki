@@ -72,7 +72,7 @@ function _mapnikGeowiki (options, callback) {
 
     const filename = options.id + '.xml'
     console.log('create ' + filename)
-    fs.writeFileSync(filename, stylesheet)
+    fs.writeFileSync(options.tmpDir + '/' + filename, stylesheet)
 
     async.mapValues(data.layers, (layerOptions, i, done) => {
       console.log('start ' + i)

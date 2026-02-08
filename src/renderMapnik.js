@@ -15,7 +15,7 @@ module.exports = function renderMapnik (options, callback) {
     param.push(options.zoom)
   }
 
-  param.push(options.id + '.xml')
+  param.push(options.tmpDir + '/' + options.id + '.xml')
   param.push(options.output)
 
   const p = childProcess.spawn('nik4', param)
