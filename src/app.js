@@ -15,13 +15,12 @@ const render2GeoJSON = require('./render2GeoJSON')
 const renderMapnik = require('./renderMapnik')
 
 class App extends Events {
-  constructor () {
+  constructor (options) {
     super()
 
-    //this.state = state
-    this.config = {
-      path: path.resolve(__dirname, '../')
-    }
+    // this.state = state
+    this.config = options
+    this.config.path = path.resolve(__dirname, '../')
   }
 
   initModules (callback) {
@@ -36,10 +35,10 @@ class App extends Events {
   }
 }
 
-App.modules = [ ...require('../modules.js') ]
+App.modules = [...require('../modules.js')]
 
 function mapnikGeowiki (options, callback) {
-  const app = new App()
+  const app = new App(options)
 
   app.config.lang = options.language
 
