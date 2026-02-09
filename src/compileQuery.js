@@ -1,4 +1,4 @@
-const OverpassFrontend = require('@geowiki-net/geowiki-api')
+const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const filter2mapnik = require('./filter2mapnik')
 const compileTemplate = require('@geowiki-net/geowiki-layer/src/compileTemplate.js')
 const twig = require('twig')
@@ -13,6 +13,6 @@ module.exports = function (query, options) {
     query = template(twigData)
   }
 
-  const filter = new OverpassFrontend.Filter(query)
+  const filter = new GeowikiAPI.Filter(query)
   return filter2mapnik(filter.sets._)
 }

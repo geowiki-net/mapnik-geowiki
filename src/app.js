@@ -3,7 +3,7 @@ const path = require('path')
 const async = require('async')
 const Events = require('events')
 
-const OverpassFrontend = require('@geowiki-net/geowiki-api')
+const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('@geowiki-net/geowiki-layer')
 const initModules = require('geowiki-lib-modules').default
 
@@ -50,7 +50,7 @@ function mapnikGeowiki (options, callback) {
 }
 
 function _mapnikGeowiki (options, callback) {
-  const overpassFrontend = options.source instanceof OverpassFrontend ? options.source : new OverpassFrontend(options.source)
+  const geowikiAPI = options.source instanceof GeowikiAPI ? options.source : new GeowikiAPI(options.source)
 
   if (!options.id) {
     const fileinfo = path.parse(options.style)
@@ -77,7 +77,7 @@ function _mapnikGeowiki (options, callback) {
     async.mapValues(data.layers, (layerOptions, i, done) => {
       console.log('start ' + i)
       const _layer = new Layer(i, layerOptions)
-      _layer.layer.overpassFrontend = overpassFrontend
+      _layer.layer.overpassFrontend = geowikiAPI
       const layer = new GeowikiLayer(_layer.layer)
 
       layer.on('twigData', (ob, feature, twigData) => {
