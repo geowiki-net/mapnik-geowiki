@@ -79,5 +79,7 @@ module.exports = function calcBBoxZoom (options) {
     maxlat: newUR[1]
   }
 
+  console.log('Using bbox (including margin):', options.bbox)
+
   return options
 }
