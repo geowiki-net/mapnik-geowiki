@@ -94,4 +94,32 @@ describe('Render from parameters', function () {
     })
   })
 
+  it('Render empty image with no buildings in bbox', function (done) {
+    mapnikGeowiki({
+      size: '100x100',
+      center: '45.2,14.3',
+      zoom: 16,
+      style: 'test/buildings.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/4.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('2.png', done)
+    })
+  })
+
+  it('Render empty image with no query at zoom level', function (done) {
+    mapnikGeowiki({
+      size: '100x100',
+      center: '45.2,14.3',
+      zoom: 12,
+      style: 'test/buildings.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/5.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('2.png', done)
+    })
+  })
+
 })

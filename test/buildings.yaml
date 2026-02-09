@@ -1,1 +1,2 @@
-query: nwr[building]
+query:
+  14: nwr[building]
