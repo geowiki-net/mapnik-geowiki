@@ -4,7 +4,17 @@ import assert from 'assert'
 import mapnikGeowiki from '../src/app.js'
 import test from './src/test.js'
 
+import GeowikiAPI from '@geowiki-net/geowiki-api'
+
+let geowikiAPI
+
 describe('Prepare', function () {
+  it('Load database', function (done) {
+    this.timeout(20000)
+    geowikiAPI = new GeowikiAPI('test/data.osm.bz2')
+    geowikiAPI.on('load', () => done())
+  })
+
   it('Check that generated directory exists', function (done) {
     fs.mkdir('test/generated', (err) => {
       if (!err || (err && err.code === 'EEXIST')) {
@@ -29,12 +39,11 @@ describe('Prepare', function () {
 
 describe('Parameter handling', function () {
   it('center requires zoom', function (done) {
-    this.timeout(20000)
     mapnikGeowiki({
       size: '100x100',
       center: '48.19988,16.33743',
       style: 'test/buildings.yaml',
-      source: 'test/data.osm.bz2',
+      source: geowikiAPI,
       output: 'test/generated/p1.png',
     }, function (err, result) {
       if (!err) { done('Should generate error') }
@@ -46,12 +55,11 @@ describe('Parameter handling', function () {
 
 describe('Render from parameters', function () {
   it('Render buildings with bbox', function (done) {
-    this.timeout(20000)
     mapnikGeowiki({
       size: '100x100',
       bbox: '48.19878,16.33585,48.19988,16.33743',
       style: 'test/buildings.yaml',
-      source: 'test/data.osm.bz2',
+      source: geowikiAPI,
       output: 'test/generated/1.png',
     }, function (err, result) {
       if (err) { return done(err) }
@@ -60,13 +68,12 @@ describe('Render from parameters', function () {
   })
 
   it('Render buildings with center', function (done) {
-    this.timeout(20000)
     mapnikGeowiki({
       size: '100x100',
       center: '48.19988,16.33743',
       zoom: 16,
       style: 'test/buildings.yaml',
-      source: 'test/data.osm.bz2',
+      source: geowikiAPI,
       output: 'test/generated/2.png',
     }, function (err, result) {
       if (err) { return done(err) }
@@ -75,12 +82,11 @@ describe('Render from parameters', function () {
   })
 
   it('Render with CircleMarker', function (done) {
-    this.timeout(20000)
     mapnikGeowiki({
       size: '100x100',
       bbox: '48.19878,16.33585,48.19988,16.33743',
       style: 'test/CircleMarker.yaml',
-      source: 'test/data.osm.bz2',
+      source: geowikiAPI,
       output: 'test/generated/3.png',
     }, function (err, result) {
       if (err) { return done(err) }
