@@ -50,7 +50,7 @@ function mapnikGeowiki (options, callback) {
 }
 
 function _mapnikGeowiki (options, callback) {
-  const overpassFrontend = new OverpassFrontend(options.source)
+  const overpassFrontend = options.source instanceof OverpassFrontend ? options.source : new OverpassFrontend(options.source)
 
   if (!options.id) {
     const fileinfo = path.parse(options.style)
