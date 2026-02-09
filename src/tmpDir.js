@@ -17,6 +17,7 @@ module.exports = {
       }
 
       console.log('Using temporary directory', app.config.tmpDir)
+      callback(null)
     })
   }
 }
