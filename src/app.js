@@ -5,7 +5,7 @@ const Events = require('events')
 
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('@geowiki-net/geowiki-layer')
-const initModules = require('geowiki-lib-modules').default
+const { initModules } = require('@geowiki-net/geowiki-lib-modules')
 
 const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
