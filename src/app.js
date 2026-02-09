@@ -75,11 +75,11 @@ function _mapnikGeowiki (options, callback) {
     const stylesheet = compile(data, options)
 
     const filename = options.id + '.xml'
-    console.log('create ' + filename)
+    logMessage('create ' + filename)
     fs.writeFileSync(options.tmpDir + '/' + filename, stylesheet)
 
     async.mapValues(data.layers, (layerOptions, i, done) => {
-      console.log('start ' + i)
+      logMessage('start ' + i)
       const _layer = new Layer(i, layerOptions)
       _layer.layer.overpassFrontend = geowikiAPI
       const layer = new GeowikiLayer(_layer.layer)
@@ -95,12 +95,12 @@ function _mapnikGeowiki (options, callback) {
         if (err) { return callback(err) }
 
         const features = layer.features()
-        console.log('loaded ' + i, features.length)
+        logMessage('loaded ' + i + ' (' + features.length + ' items)')
 
         done(null, features)
       })
     }, (err, result) => {
-      console.log('final')
+      logMessage('final')
       if (err) { return callback(err) }
 
       render2GeoJSON(result, options)

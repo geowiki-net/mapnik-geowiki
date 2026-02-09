@@ -1,4 +1,5 @@
 const { SphericalMercator } = require('@mapbox/sphericalmercator')
+const { logMessage } = require('@geowiki-net/geowiki-lib-modules')
 const merc = new SphericalMercator()
 const optimalZoom = require('./optimalZoom')
 
@@ -56,13 +57,13 @@ module.exports = function calcBBoxZoom (options) {
 
   if (!options.zoom) {
     options.zoom = optimalZoom(options)
-    console.log('optimal zoom', options.zoom)
+    logMessage('optimal zoom: ' + options.zoom)
   }
 
   const bottomLeft = merc.px([options.bbox.minlon, options.bbox.minlat], options.zoom)
   const upperRight = merc.px([options.bbox.maxlon, options.bbox.maxlat], options.zoom)
   const size = [upperRight[0] - bottomLeft[0], bottomLeft[1] - upperRight[1]]
-  console.log('Size of bounding box at zoom', size)
+  logMessage('Size of bounding box at zoom: ' + size[0] + 'x' + size[1])
 
   if (!options.size) {
     options.size = size
@@ -79,7 +80,7 @@ module.exports = function calcBBoxZoom (options) {
     maxlat: newUR[1]
   }
 
-  console.log('Using bbox (including margin):', options.bbox)
+  logMessage('Using bbox (including margin): ' + options.bbox.minlat + ',' + options.bbox.minlon + ',' + options.bbox.maxlat + ',' + options.bbox.maxlon)
 
   return options
 }

@@ -1,4 +1,5 @@
 const fs = require('fs')
+const { logMessage } = require('@geowiki-net/geowiki-lib-modules')
 
 module.exports = {
   id: 'tmpDir',
@@ -9,14 +10,14 @@ module.exports = {
 
     fs.stat(app.config.tmpDir, (err, data) => {
       if (err && err.code === 'ENOENT') {
-        console.log('Creating temporary directory', app.config.tmpDir)
+        logMessage('Creating temporary directory:' + app.config.tmpDir)
         return fs.mkdir(app.config.tmpDir, callback)
       }
       if (err) {
         return callback(err)
       }
 
-      console.log('Using temporary directory', app.config.tmpDir)
+      logMessage('Using temporary directory:' + app.config.tmpDir)
       callback(null)
     })
   }
