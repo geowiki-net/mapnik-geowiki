@@ -5,7 +5,7 @@ const Events = require('events')
 
 const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('@geowiki-net/geowiki-layer')
-const { initModules } = require('@geowiki-net/geowiki-lib-modules')
+const { initModules, logMessage } = require('@geowiki-net/geowiki-lib-modules')
 
 const loadStyleFile = require('./loadStyleFile')
 const compile = require('./compile')
@@ -42,6 +42,10 @@ class App extends Events {
 App.modules = [ ...baseModules, ...require('../modules.js')]
 
 function mapnikGeowiki (options, callback) {
+  if (options.verbose) {
+    logMessage.setVerbosity(1)
+  }
+
   const app = new App(options)
 
   app.config.lang = options.language

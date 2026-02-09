@@ -68,6 +68,11 @@ parser.add_argument('--tmp-dir', {
   default: null
 })
 
+parser.add_argument('--verbose', '-v', {
+  help: 'print detailed information about the rendering process.',
+  action: 'store_true'
+})
+
 const options = parser.parse_args()
 
 options.parameters = JSON.parse(options.parameters)
