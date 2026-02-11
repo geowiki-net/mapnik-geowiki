@@ -1,6 +1,6 @@
 {
   "name": "@geowiki-net/mapnik-geowiki",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "Renders a Geowiki map with Mapnik",
   "main": "src/app.js",
   "bin": {
