@@ -61,6 +61,12 @@ module.exports = function render2GeoJSON (list, options) {
           properties[key] = def.fun(properties)
         })
 
+        Object.keys(properties).forEach(key => {
+          if (typeof properties[key] === 'string') {
+            properties[key] = properties[key].trim()
+          }
+        })
+
         if (geometry.type === 'Point') {
           let radius = parseFloat(properties.radius ?? 10)
           switch (properties.nodeFeature ?? 'CircleMarker') {
