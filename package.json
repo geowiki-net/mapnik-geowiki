@@ -13,6 +13,7 @@
     "@geowiki-net/geowiki-style-registry": "github:geowiki-net/geowiki-style-registry",
     "@geowiki-net/geowiki-translations": "github:geowiki-net/geowiki-translations",
     "@geowiki-net/geowiki-twig-functions": "github:geowiki-net/geowiki-twig-functions",
+    "@geowiki-net/geowiki-umap": "github:geowiki-net/geowiki-umap",
     "@mapbox/sphericalmercator": "^2.0.1",
     "@turf/buffer": "^7.0.0",
     "argparse": "^2.0.1",
