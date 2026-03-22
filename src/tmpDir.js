@@ -10,14 +10,14 @@ module.exports = {
 
     fs.stat(app.config.tmpDir, (err, data) => {
       if (err && err.code === 'ENOENT') {
-        logMessage('Creating temporary directory:' + app.config.tmpDir)
+        logMessage('Creating temporary directory: ' + app.config.tmpDir)
         return fs.mkdir(app.config.tmpDir, callback)
       }
       if (err) {
         return callback(err)
       }
 
-      logMessage('Using temporary directory:' + app.config.tmpDir)
+      logMessage('Using temporary directory: ' + app.config.tmpDir)
       callback(null)
     })
   }
