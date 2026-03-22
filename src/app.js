@@ -7,7 +7,7 @@ const GeowikiAPI = require('@geowiki-net/geowiki-api')
 const GeowikiLayer = require('@geowiki-net/geowiki-layer')
 const { initModules, logMessage } = require('@geowiki-net/geowiki-lib-modules')
 
-const loadStyleFile = require('./loadStyleFile')
+const loadStyle = require('./loadStyle')
 const compile = require('./compile')
 const Layer = require('./Layer')
 const calcBBoxZoom = require('./calcBBoxZoom')
@@ -16,7 +16,9 @@ const renderMapnik = require('./renderMapnik')
 
 const baseModules = [
   require('./config.js'),
-  require('./tmpDir')
+  require('./tmpDir'),
+  require('./loadStyleCurrentPath.js'),
+  require('@geowiki-net/geowiki-style-registry').default,
 ]
 
 class App extends Events {
@@ -41,13 +43,14 @@ class App extends Events {
 }
 
 App.modules = [ ...baseModules, ...require('../modules.js')]
+let app
 
 function mapnikGeowiki (options, callback) {
   if (options.verbose) {
     logMessage.setVerbosity(1)
   }
 
-  const app = new App(options)
+  app = new App(options)
 
   app.config.lang = options.language
 
@@ -68,7 +71,7 @@ function _mapnikGeowiki (options, callback) {
     return callback(e)
   }
 
-  loadStyleFile(options, (err, data) => {
+  loadStyle(app, options, (err, data) => {
     if (err) {
       return console.error(err)
     }
