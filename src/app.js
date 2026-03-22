@@ -51,6 +51,7 @@ function mapnikGeowiki (options, callback) {
   }
 
   app = new App(options)
+  app.modules = App.modules
 
   app.config.lang = options.language
 
