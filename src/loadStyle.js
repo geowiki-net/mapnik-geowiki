@@ -2,7 +2,6 @@ const fs = require('fs')
 const yaml = require('js-yaml')
 
 module.exports = function (app, options, callback) {
-  console.log('loadStyle', options)
   app.styleRegistry.get(options.style)
     .then(item => {
       const data = yaml.load(item.data)
