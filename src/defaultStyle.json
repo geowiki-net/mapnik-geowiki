@@ -2,7 +2,7 @@
   "width": "3",
   "color": "#3388ff",
   "fillColor": "#3388ff",
-  "fill": "{{ is_area }}",
+  "fill": "{{ geometry|is_area }}",
   "stroke": true,
   "gamma": 1,
   "offset": 0,
