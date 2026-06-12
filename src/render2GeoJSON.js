@@ -19,8 +19,7 @@ module.exports = function render2GeoJSON (list, options) {
     .forEach(item => {
       const geojson = item.object.GeoJSON()
 
-      item.data.styles.forEach(style => {
-        const properties = style === 'default' ? item.data.style : item.data['style:' + style]
+      Object.values(item.getStyles()).forEach(properties => {
         let geometry = geojson.geometry
 
         if (properties.geometry) {
