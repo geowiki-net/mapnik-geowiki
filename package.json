@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@geowiki-net/geowiki-api": "^4.0.0-beta.0",
-    "@geowiki-net/geowiki-layer": "^4.0.0-beta.1",
+    "@geowiki-net/geowiki-layer": "github:geowiki-net/geowiki-layer#main",
     "@geowiki-net/geowiki-lib-modules": "github:geowiki-net/geowiki-lib-modules",
     "@geowiki-net/geowiki-module-umap": "github:geowiki-net/geowiki-module-umap",
     "@geowiki-net/geowiki-style-registry": "github:geowiki-net/geowiki-style-registry",
