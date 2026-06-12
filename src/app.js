@@ -86,7 +86,7 @@ function _mapnikGeowiki (options, callback) {
     async.mapValues(data.layers, (layerOptions, i, done) => {
       logMessage('start ' + i)
       const _layer = new Layer(i, layerOptions)
-      _layer.layer.overpassFrontend = geowikiAPI
+      _layer.layer.geowikiAPI = geowikiAPI
       const layer = new GeowikiLayer(_layer.layer)
 
       layer.on('twigData', (ob, feature, twigData) => {
