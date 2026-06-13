@@ -122,4 +122,18 @@ describe('Render from parameters', function () {
     })
   })
 
+  it('Render railway', function (done) {
+    mapnikGeowiki({
+      size: '200x200',
+      center: '48.196169,16.338724',
+      zoom: 16,
+      style: 'test/railway.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/6.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('6.png', done)
+    })
+  })
+
 })

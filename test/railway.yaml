@@ -1,0 +1,25 @@
+query:
+  14: way[railway~'^(rail|tram|subway)$']
+feature:
+  styles: back_casing,casing,default
+  style:
+    color: |-
+      {{ { 'rail': '#ffffff', 'subway': '#ff0000', 'tram': '#0000ff' }[tags.railway] }}
+    width: 3
+    lineCap: round
+    fill: false
+    zIndex: |
+      {{ tags.layer|default(0) }}
+  style:casing:
+    color: black
+    width: 5
+    lineCap: butt
+    fill: false
+    zIndex: |
+      {{ tags.layer|default(0) - 0.1 }}
+  style:back_casing:
+    color: black
+    width: 5
+    lineCap: round
+    zIndex: -10
+    fill: false
