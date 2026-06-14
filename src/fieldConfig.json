@@ -32,7 +32,8 @@
   },
   "textFontName": {
     "values": [],
-    "otherValues": true
+    "otherValues": true,
+    "expressions": false
   },
   "textRepeat": {
     "type": "boolean",

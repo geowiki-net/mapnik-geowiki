@@ -85,15 +85,27 @@ function getRuleFieldValues (conf, styleFieldValues) {
 
   Object.values(conf.fieldMapping).forEach(field => {
     const fConfig = fieldConfig[field] ?? {}
+    let otherValues = styleFieldValues[field]
+
     if ('values' in fConfig) {
       if (styleFieldValues[field].includes(undefined)) {
         ruleFieldValues[field] = fConfig.values
       } else {
         ruleFieldValues[field] = styleFieldValues[field].filter(v => fConfig.values.includes(v))
+        otherValues = styleFieldValues[field].filter(v => !fConfig.values.includes(v))
       }
     }
 
-    if (fConfig.otherValues) {
+    if (fConfig.otherValues && otherValues.length) {
+      if (!(field in ruleFieldValues)) {
+        ruleFieldValues[field] = []
+      }
+
+      if (!('expressions' in fieldConfig[field]) || fieldConfig[field].expressions) {
+        ruleFieldValues[field].push(undefined)
+        return
+      }
+
       ruleFieldValues[field] = ruleFieldValues[field].concat(styleFieldValues[field])
 
       if (styleFieldValues[field].includes(undefined) ||
