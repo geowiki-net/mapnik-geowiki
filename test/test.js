@@ -191,4 +191,18 @@ describe('Render from parameters', function () {
       test('several-layers-1.png', done)
     })
   })
+
+  it('Several layers (with empty layer)', function (done) {
+    mapnikGeowiki({
+      size: '400x400',
+      center: '48.202,16.337',
+      zoom: 17,
+      style: 'test/several-layers-with-empty-layer.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/several-layers-with-empty-layer-1.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('several-layers-with-empty-layer-1.png', done)
+    })
+  })
 })
