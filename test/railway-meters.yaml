@@ -1,7 +1,7 @@
 query:
   14: way[railway~'^(rail|tram|subway)$']
 feature:
-  styles: back_casing,casing,default
+  styles: back_casing,casing,default,dash
   style:
     color: |-
       {{ { 'rail': '#ffffff', 'subway': '#ff0000', 'tram': '#0000ff' }[tags.railway] }}
@@ -10,6 +10,14 @@ feature:
     fill: false
     zIndex: |
       {{ tags.layer|default(0) }}
+  style:dash:
+    color: black
+    width: 2
+    lineCap: butt
+    fill: false
+    dashArray: 3m,3m
+    zIndex: |
+      {{ tags.layer|default(0) + 0.1 }}
   style:casing:
     color: grey
     width: 3m
