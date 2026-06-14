@@ -1,0 +1,31 @@
+query:
+  14: way[highway~'^(primary|secondary|tertiary|residential|unclassified)(_link|)$']
+feature:
+  styles: back_casing,casing,default,text
+  style:
+    color: white
+    width: 9
+    lineCap: round
+    fill: false
+    zIndex: |
+      {{ tags.layer|default(0) }}
+  style:casing:
+    color: black
+    width: 12
+    lineCap: butt
+    fill: false
+    zIndex: |
+      {{ tags.layer|default(0) - 0.1 }}
+  style:back_casing:
+    color: black
+    width: 12
+    lineCap: round
+    zIndex: -10
+    fill: false
+  style:text:
+    width: 0
+    fill: false
+    zIndex: |
+      {{ tags.layer|default(0) + 0.1 }}
+    text: |
+      {{ tags.name }}
