@@ -5,6 +5,7 @@ const turf = {
 
 const BoundingBox = require('boundingbox')
 const fieldConfig = require('./fieldConfig.json')
+const mapnikSymbolizer = require('./mapnikSymbolizer.json')
 const mapnikSymbolizerFunctions = require('./mapnikSymbolizerFunctions.js')
 const isTrue = require('./isTrue')
 const parseLength = require('@geowiki-net/geowiki-layer/src/parseLength.js')
@@ -90,6 +91,17 @@ module.exports = function render2GeoJSON (list, options) {
     .sort((a, b) => {
       return (a.properties.zIndex ?? 0) - (b.properties.zIndex ?? 0)
     })
+
+  // make sure, that at least one (the first) feature has all necessary properties
+  if (features.length) {
+    const feature = features[0]
+
+    Object.values(mapnikSymbolizer).forEach(symbDef => {
+      if (symbDef.requireField && !(symbDef.requireField in feature.properties)) {
+        feature.properties[symbDef.requireField] = null
+      }
+    })
+  }
 
   fs.writeFileSync(options.tmpDir + '/data.geojson', JSON.stringify({
     type: 'FeatureCollection',

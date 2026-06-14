@@ -1,0 +1,16 @@
+layers:
+- query:
+    14: way[does_not=exist]
+  feature:
+    style:
+      color: red
+      width: 2
+      text: |
+        {{ tags.name }}
+
+- query:
+    14: way[railway~'^(rail|tram|subway)$']
+  feature:
+    style:
+      color: blue
+      width: 2
