@@ -77,7 +77,12 @@ function _mapnikGeowiki (options, callback) {
       return console.error(err)
     }
 
-    const stylesheet = compile(data, options)
+    let stylesheet
+    try {
+      stylesheet = compile(data, options)
+    } catch (e) {
+      return callback(new Error('Exception while compiling stylesheet: ' + e.message))
+    }
 
     const filename = options.id + '.xml'
     logMessage('create ' + filename)
