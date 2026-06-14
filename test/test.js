@@ -136,4 +136,31 @@ describe('Render from parameters', function () {
     })
   })
 
+  it('Render railway with zoom dependend width (z16)', function (done) {
+    mapnikGeowiki({
+      size: '200x200',
+      center: '48.196169,16.338724',
+      zoom: 16,
+      style: 'test/railway-meters.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/railway-meters-1.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('railway-meters-1.png', done)
+    })
+  })
+
+  it('Render railway with zoom dependend width (z19)', function (done) {
+    mapnikGeowiki({
+      size: '400x400',
+      center: '48.196169,16.338724',
+      zoom: 19,
+      style: 'test/railway-meters.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/railway-meters-2.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('railway-meters-2.png', done)
+    })
+  })
 })
