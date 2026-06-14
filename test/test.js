@@ -177,4 +177,18 @@ describe('Render from parameters', function () {
       test('roads-1.png', done)
     })
   })
+
+  it('Several layers', function (done) {
+    mapnikGeowiki({
+      size: '400x400',
+      center: '48.202,16.337',
+      zoom: 17,
+      style: 'test/several-layers.yaml',
+      source: geowikiAPI,
+      output: 'test/generated/several-layers-1.png',
+    }, function (err, result) {
+      if (err) { return done(err) }
+      test('several-layers-1.png', done)
+    })
+  })
 })
